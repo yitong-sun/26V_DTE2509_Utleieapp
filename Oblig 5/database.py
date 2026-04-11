@@ -81,9 +81,42 @@ class Database():
 
     
     #Visninger
-    #A
-    #B
-    #C
-    #D
-    #E
+    #A Kundeliste
+    def all_bedriftskunder(self):
+        self.cursor.execute(""" SELECT bk.KundeNr, bk.Kundenavn, k.KundeEpost, adr.AdrGate AS FakturaAdrGate, adr.AdrGateNr AS FakturaAdrGateNr, adr.postnr AS FakturaAdrPostNr
+                                FROM bedriftkunde AS bk, adresse AS adr, kunde as k
+                                WHERE k.KundeNr = bk.KundeNr and k.Fakt_AdresseId = adr.AdresseId  """)
+        return self.cursor.fetchall()
+    
+    #B  Aktive utleier ("Ikke innlevert", filtrer på inlogget ansatt)
+    def aktive_utleier(self, KundeBehandlerId):
+        self.cursor.execute(""" SELECT utl.UtleidDato, utl.InnlevertDato, utl.KundeNr, ut.UtstyrId, ut.UtstyrsMerke, ut.UtstyrsModell, ut.UtstyrsType
+                                FROM utleie as utl, Utstyr AS ut, kundebehandler AS kb
+                                WHERE utl.UtstyrId = ut.utstyrid AND utl.KundebehandlerId = kb.KundebehandlerId 
+                                AND kb.KundebehandlerId = %s AND utl.Innlevertdato is null; """, (KundeBehandlerId))
+        return self.cursor.fetchall()
+    
+    #C Statistikk: Teller opp antall komplette utleier i valgt periode 
+    def komplette_utleier(self):
+        self.cursor.execute("""SELECT COUNT(*) AS AntallKompletteUtleier
+                                FROM utleie
+                                WHERE Innlevertdato IS NOT NULL 
+                                AND utleiddato BETWEEN "2019-01-01" AND "2020-02-10" 
+                                AND Innlevertdato BETWEEN "2019-01-01" AND "2020-02-10";""")
+        return self.cursor.fetchall()
 
+    #D Inntekt per utstyr: (liste/tabell, sorter synkende)Viser hvor mye det er tjent på hvert utstyr (uavhengig av instansId).
+    def tjent_per_utstyr(self):
+        self.cursor.execute("""SELECT utl.utstyrid AS UtstyrsMal_ID, SUM(utl.Totalpris - utl.Leveringskostnad) AS SumPerUtstyr, ut.UtstyrsMerke, ut.UtstyrsModell, ut.UtstyrsType
+                                FROM utstyr AS ut INNER JOIN utleie AS utl 
+                                ON ut.Utstyrid = utl.Utstyrid AND utl.Totalpris IS NOT NULL
+                                GROUP BY utl.Utstyrid
+                                ORDER BY SumPerUtstyr DESC;""")
+        return self.cursor.fetchall()
+    
+    #E Mest utleid utstyr: (Highlight topresultatet)Vis det utstyret som er leid ut flest ganger, dvs. uavhengig av instansId.
+    def flest_utleid_utstyr(self):
+        self.cursor.execute("""SELECT AU.AntUtleid, Ut.UtstyrsMerke, Ut.UtstyrsModell, Ut.UtstyrsType, utkat.Beskrivelse AS Kategori
+                                FROM utstyr AS Ut, (SELECT COUNT(*) AS AntUtleid, Utstyrid FROM Utleie GROUP BY utstyrid ORDER BY Antutleid DESC LIMIT 1) as AU, utstyrskategori AS utkat
+                                WHERE Ut.utstyrid = AU.UtstyrId AND Ut.UtstyrsKatId = utkat.UtstyrsKatId;""")
+        return self.cursor.fetchall()
