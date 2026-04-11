@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-4">
+    <h2 class="text-center">Utstyr Listen</h2>
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>UtstyrId</th>
+                <th>UtstyrsType</th>
+                <th>UtstyrsMerke</th>
+                <th>UtstyrsModell</th>
+                <th>Beskrivelse</th>
+                <th>UtstyrsKategori</th>
+                <th>Leie pris per døgn</th>
+                <th>Antall utstyr</th>
+                <th>Antall på lager</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for utstyr in utstyrer %}
+            <tr>
+                <td>{{ utstyr.UtstyrId }}</td>
+                <td>{{ utstyr.UtstyrsType }}</td>
+                <td>{{ utstyr.UtstyrsMerke }}</td>
+                <td>{{ utstyr.UtstyrsModell }}</td>
+                <td>{{ utstyr.Beskrivelse }}</td>
+                <td>{{ utstyr.UtstyrsKategori}}</td>
+                <td>{{ utstyr.leieprisdøgn}}</td>
+                <td>{{ utstyr.AntallUtstyr}}</td>
+                <td>{{ utstyr.AntallPåLager}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- liste over alt utstyr-->
+<!--Filtrere på:
+            *Type
+            *Kategori   -->
+<!-- Se status
+    *tilgjengelig/utleid -->
+
+{% endblock %}

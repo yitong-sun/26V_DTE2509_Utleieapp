@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div>
+    <h2>Registrer</h2>
+    <form action="{{ url_for('users.register') }}" method="POST">
+        <div class="form-group">
+            <label for="name">Navn:</label>
+            <input type="text" name="name" id="name" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Epost:</label>
+            <input type="email" name="email" id="email" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Passord:</label>
+            <input type="password" name="password" id="password" class="form-control" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Passordet må inneholde minst en stor bokstav, en liten bokstav og et syfer, og minst 8 eller mer karakterer" required>
+        </div>
+        <div class="form-group">
+            <label for="confirm_password">Bekrefter passord:</label>
+            <input type="password" name="confirm_password" id="confirm_password" class="form-control" required>
+        </div>
+        <button type="submit" name="register" value="Register" class="btn btn-primary">Registrer</button>
+
+        <p>Har du allerede en konto? <a href="{{ url_for('users.login') }}">Logg inn</a> </p>
+    </form>
+</div>
+
+{% endblock %}

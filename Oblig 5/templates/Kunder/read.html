@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Everthing here should technically work but needs the database fuctions to be done-->
+<div class="container mt-4">
+    <h2 class="text-center">Kunde Listen</h2>
+    <a href="{{ url-for('kunder.add_kunde') }}" class="btn btn-success mb-3">Oppret Ny Kunde</a> 
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>KundeNr</th>
+                <th>Navn</th>
+                <th>E-post</th>
+                <th>Mobil</th>
+                <th>Faktura Adresse</th>
+                <th>Leverings Adresse</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for kunde in kunder %}
+            <tr>
+                <td>{{ kunde.kundenr }}</td>
+                <td>{{ kunde.navn }}</td>
+                <td>{{ kunde.epost }}</td>
+                <td>{{ kunde.mobil }}</td>
+                <td>{{ kunde.fakt_adresse }}</td>
+                <td>{{ kunde.levering_adresse}}</td>
+                <td>
+                    <a href="{{ url_for('kunde.edit_kunde', kundenr= kunde.kundenr) }}" class="btn btn-primary btn-sm">Oppdatere</a>
+                    <form method="POST" action="{{ url_for('kunder.delete_kunde', kundenr = kunde.kundenr)}}" style="display: inline;">
+                        <button type="submit" class="btn btn-danger btn-sm">Slett</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- liste over kunder-->
+<!--Legg til ny kunde-->
+<!-- Redigere kunde-->
+<!--Slette kunde-->
+
+{% endblock %}

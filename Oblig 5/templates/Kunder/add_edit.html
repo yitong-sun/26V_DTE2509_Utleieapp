@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Everthing here should technically work but needs the database fuctions to be done-->
+<div class="conatianer mt-4">
+    <h2>{{ 'Oppdatere' if kunde else 'Legge til'}} Kunde</h2>
+    <form method="POST">
+        <div class="mb-3">
+            <label for="kundenr" clss="form-label">KundeNr</label>
+            <input type="text" class="form-control" id="kundenr" name="kundenr" value="{{ kunde.kundenr if kunde else ''}}" required>
+        </div>
+        <div class="mb-3">
+            <label for="navn" clss="form-label">Navn</label>
+            <input type="text" class="form-control" id="navn" name="navn" value="{{ kunde.navn if kunde else ''}}" required>
+        </div>
+        <div class="mb-3">
+            <label for="epost" clss="form-label">Epost</label>
+            <input type="text" class="form-control" id="epost" name="epost" value="{{ kunde.epost if kunde else ''}}" required>
+        </div>
+        <div class="mb-3">
+            <label for="mobil" clss="form-label">Mobil</label>
+            <input type="text" class="form-control" id="mobil" name="mobil" value="{{ kunde.mobil if kunde else ''}}" required>
+        </div>
+        <div class="mb-3">
+            <label for="fakt_adresse" clss="form-label">Faktura Adresse</label>
+            <input type="text" class="form-control" id="fakt_adresse" name="fakt_adresse" value="{{ kunde.fakt_adresse if kunde else ''}}" required>
+        </div>
+        <div class="mb-3">
+            <label for="levering_adresse" clss="form-label">Levering Adresse</label>
+            <input type="text" class="form-control" id="levering_adresse" name="levering_adresse" value="{{ kunde.levering_adresse if kunde else ''}}" required>
+        </div>
+        <button type="submit"   class="btn btn-primary">{{'Oppdatere' if kunde else 'Legge til'}} Kunde</button>
+    </form>
+</div>
+{% endblock %}
