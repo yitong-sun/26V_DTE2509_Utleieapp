@@ -5,6 +5,7 @@ from routes.utstyr_bp import utstyr_bp
 #remove hash when implemented
 #from routes.utleie_bp import utleie_bp 
 #from routes.kunder_bp import kunder_bp
+from routes.statistikk_bp import statistikk_bp
 import secrets
 
 app = Flask(__name__)
@@ -18,6 +19,8 @@ app.register_blueprint(users_bp, url_prefix = '/users')
 app.register_blueprint(utstyr_bp, url_prefix = '/utstyr')
 #app.register_blueprint(utleie_bp, url_prefix = '/utstyr')
 #app.register_blueprint(kunder_bp, url_prefix = '/kunder')
+app.register_blueprint(statistikk_bp, url_prefix = '/statistikk')
+
 
 @app.route("/")
 @login_required

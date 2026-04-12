@@ -15,7 +15,8 @@
                 <a href="{{ url_for('home') }}" class="btn btn-secondary btn-sm">Home</a>
                 <a href="{{ url_for('users.profile') }}" class="btn btn-secondary btn-sm">Min side</a>
                 <a href="{{ url_for('utstyr.all') }}" class="btn btn-secondary btn-sm">Utstyr</a>
-                <a href="{{ url_for('users.logout') }}" class="btn btn-danger btn-sm">Logg ut</a>
+                <a href="{{ url_for('statistikk.all_statistikk') }}" class="btn btn-secondary btn-sm">Satistikk</a>
+                <a href="{{ url_for('users.logout') }}" class="btn btn-danger btn-sm">Logg ut</a>            
                 {% else %}
                     <a href="{{ url_for('users.login') }}" class="btn btn-primary btn-sm">Logg in</a> | 
                     <a href="{{ url_for('users.register') }}" class="btn btn-secondary btn-sm">Registrer</a>

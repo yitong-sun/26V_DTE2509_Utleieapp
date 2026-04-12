@@ -41,3 +41,24 @@ class Utleie():
         self.BetalingsmåteId = BetalingsmåteId
         self.Leveringskostnad = Leveringskostnad
         self.Totalpris = Totalpris
+
+#visninger
+
+#B
+class Utleie_Aktiv(): 
+    def __init__(self, UtleidDato, InlevertDato, KundeNr, UtstyrsId, UtstyrsMerke, UtstyrsModell, UtstyrsType):
+        self.UtleidDato = UtleidDato
+        self.InlevertDato = "Ikke levert" if InlevertDato == None else InlevertDato
+        self.KundeNr = KundeNr        
+        self.UtstyrsId = UtstyrsId 
+        self.UtstyrsMerke = UtstyrsMerke
+        self.UtstyrsModell = UtstyrsModell
+        self.UtstyrsType = UtstyrsType
+#D
+class Utstyr_Inntekt():
+    def __init__(self, UtstyrId, SumPerUtstyr, UtstyrsMerke, UtstyrsModell, UtstyrsType):
+        self.UtstyrId = UtstyrId
+        self.SumPerUtstyr = SumPerUtstyr
+        self.UtstyrsMerke = UtstyrsMerke
+        self.UtstyrsModell = UtstyrsModell
+        self.UtstyrsType = UtstyrsType

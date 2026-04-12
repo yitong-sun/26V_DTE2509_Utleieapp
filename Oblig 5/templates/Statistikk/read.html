@@ -1,0 +1,103 @@
+<!-- Bruk SQL sporringer som er allerede laget-->
+
+<!--A: Kundeliste
+    *Vis som tabell i web-->
+
+<!--B: Aktive utleier
+    *"Ikke innlevert"
+    *Filtrer på inlogget ansatt-->
+
+<!--C: Statistikk
+    *Antall komplette utleier i valgt periode
+    (kan være hardkodet periode)-->
+
+    
+<!--D: Inntekt per utstyr
+    *Vis som liste/tabell
+    *sorter synkende -->
+    
+
+<!--E: Mest utleid utstyr
+    *Highlight toppresultatet-->
+
+{% extends "base.html" %}
+{% block content %}
+
+<!--B: Aktive utleier -->
+
+<div class="container mt-4">
+    <h2 class="text-center">Aktive utleier</h2>
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>UtleidDato</th>
+                <th>InlevertDato</th>
+                <th>UtstyrsId</th>
+                <th>UtstyrsMerke</th>
+                <th>UtstyrsModell</th>
+                <th>UtstyrsType</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for utleie in aktive_utleier %}
+            <tr>
+                <td>{{ utleie.UtleidDato }}</td>
+                <td>{{ utleie.InlevertDato}}</td>
+                <td>{{ utleie.UtstyrsId }}</td>
+                <td>{{ utleie.UtstyrsMerke }}</td>
+                <td>{{ utleie.UtstyrsModell }}</td>
+                <td>{{ utleie.UtstyrsType }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!--C:Komplette utleier-->
+<div class="container mt-4">
+    <h2 class="text-center">Komplette utleier i perioden 2019-01-01 til 2020-02-10</h2>
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr> 
+                <th>Antall komplette Utleier</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ antall_komplette_utleier }}</td>
+
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!--D: Innetekt per Utstyr-->
+<div class="container mt-4">
+    <h2 class="text-center">Inntekt per Utstyr</h2>
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>UtstyrId</th>
+                <th>Sum per Utstyr</th>
+                <th>UtstyrsMerke</th>
+                <th>UtstyrsModell</th>
+                <th>UtstyrsType</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for utstyr in utstyrer %}
+            <tr>
+                <td>{{ utstyr.UtstyrId }}</td>
+                <td>{{ utstyr.SumPerUtstyr}}</td>
+                <td>{{ utstyr.UtstyrsMerke }}</td>
+                <td>{{ utstyr.UtstyrsModell }}</td>
+                <td>{{ utstyr.UtstyrsType }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+
+{% endblock %}

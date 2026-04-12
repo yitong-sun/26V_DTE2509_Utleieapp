@@ -93,17 +93,17 @@ class Database():
         self.cursor.execute(""" SELECT utl.UtleidDato, utl.InnlevertDato, utl.KundeNr, ut.UtstyrId, ut.UtstyrsMerke, ut.UtstyrsModell, ut.UtstyrsType
                                 FROM utleie as utl, Utstyr AS ut, kundebehandler AS kb
                                 WHERE utl.UtstyrId = ut.utstyrid AND utl.KundebehandlerId = kb.KundebehandlerId 
-                                AND kb.KundebehandlerId = %s AND utl.Innlevertdato is null; """, (KundeBehandlerId))
+                                AND kb.KundebehandlerId = %s AND utl.Innlevertdato is null; """, (KundeBehandlerId,))
         return self.cursor.fetchall()
     
     #C Statistikk: Teller opp antall komplette utleier i valgt periode 
     def komplette_utleier(self):
-        self.cursor.execute("""SELECT COUNT(*) AS AntallKompletteUtleier
+        self.cursor.execute("""SELECT count(*)
                                 FROM utleie
                                 WHERE Innlevertdato IS NOT NULL 
                                 AND utleiddato BETWEEN "2019-01-01" AND "2020-02-10" 
                                 AND Innlevertdato BETWEEN "2019-01-01" AND "2020-02-10";""")
-        return self.cursor.fetchall()
+        return self.cursor.fetchone()
 
     #D Inntekt per utstyr: (liste/tabell, sorter synkende)Viser hvor mye det er tjent på hvert utstyr (uavhengig av instansId).
     def tjent_per_utstyr(self):
