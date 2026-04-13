@@ -1,6 +1,9 @@
 from flask_login import UserMixin
+from flask_wtf import FlaskForm
+from wtforms import SelectField, SubmitField
 
 # Tabeller i databasen:
+
 class User(UserMixin):
     def __init__(self, id, name, email, role):
         self.id = id
@@ -103,6 +106,20 @@ class UtstyrsKategori():
     def __init__(self, utstyrs_kat_id, beskrivelse):
         self.utstyrs_kat_id = utstyrs_kat_id
         self.beskrivelse = beskrivelse
+
+#Forms
+
+class FilterUtstyrForm(FlaskForm):
+    utstyr_type = SelectField('Utstyr type:', choices=[], coerce=str)
+    kategori = SelectField('Utstyr kategori:', choices=[], coerce=str)
+    filter = SubmitField('Filter')
+
+class AddUtleieForm(FlaskForm):
+    pass
+
+class UpdateUtleieForm(FlaskForm):
+    pass
+
 
 #visninger:
 

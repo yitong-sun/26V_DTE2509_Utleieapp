@@ -12,3 +12,13 @@ def all():
         utstyrer = [Utleie(*utleie) for utleie in db.get_all_utleie()] #not implemented in Database yet
 
     return render_template('utleie/read.html', uteleier=utleier)
+
+""" Registrere utleie
+        *Velg kunde
+        *Velg Utstyr(kun tilgjengelig)
+        *Sett dato
+        *Automatisk registrer hvilken ansatt som ekspederer
+
+    Registrer innlevering
+        *Marker utleie som levert
+        *Sett innleveringsdato  """

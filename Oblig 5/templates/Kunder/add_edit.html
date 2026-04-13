@@ -5,6 +5,7 @@
 <div class="conatianer mt-4">
     <h2>{{ 'Oppdatere' if kunde else 'Legge til'}} Kunde</h2>
     <form method="POST">
+        {{ form.hidden_tag() }}
         <div class="mb-3">
             <label for="kundenr" clss="form-label">KundeNr</label>
             <input type="text" class="form-control" id="kundenr" name="kundenr" value="{{ kunde.kundenr if kunde else ''}}" required>

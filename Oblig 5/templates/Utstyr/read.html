@@ -2,19 +2,39 @@
 {% block content %}
 
 <div class="container mt-4">
-    <h2 class="text-center">Utstyr Listen</h2>
+    <h2 class="text-center">Utstyr Liste</h2>
+
+        <form method="POST" novalidate>
+            {{ form.hidden_tag()}}
+            <div class="row">
+                <div class="col">
+                    {{ form.utstyr_type.label }}
+                    {{ form.utstyr_type(class="form-select") }}
+                    </select>
+                </div>
+                <div class="col">
+                    {{ form.kategori.label }}
+                    {{ form.kategori(class="form-select") }}
+                </div>
+                <div class="col">
+                {{ form.filter(class="btn btn-lg btn-outline-dark ")}}
+                </div>
+        </div>
+    </form>
+    <p></p>
     <table class="table table-bordered">
         <thead class="table-dark">
             <tr>
-                <th>UtstyrId</th>
-                <th>UtstyrsType</th>
-                <th>UtstyrsMerke</th>
-                <th>UtstyrsModell</th>
+                <th>Utstyr Id</th>
+                <th>Utstyrs Type</th>
+                <th>Utstyrs Merke</th>
+                <th>Utstyrs Modell</th>
                 <th>Beskrivelse</th>
-                <th>UtstyrsKategori</th>
+                <th>Utstyrs Kategori</th>
                 <th>Leie pris per døgn</th>
                 <th>Antall utstyr</th>
                 <th>Antall på lager</th>
+                <th>Status</th>
             </tr>
         </thead>
         <tbody>
@@ -29,17 +49,19 @@
                 <td>{{ utstyr.leie_pris_døgn}}</td>
                 <td>{{ utstyr.antall_utstyr}}</td>
                 <td>{{ utstyr.antall_på_lager}}</td>
+                <td>{% if utstyr.antall_på_lager == 0 %} Utleid {% else %} Tilgjengelig {% endif %}</td>
+                {% endfor %}
             </tr>
-            {% endfor %}
+            
         </tbody>
     </table>
 </div>
 
-<!-- liste over alt utstyr-->
-<!--Filtrere på:
+<!--Implemented: liste over alt utstyr-->
+<!--Implemented: Filtrere på:
             *Type
             *Kategori   -->
-<!-- Se status
+<!--Implemented: Se status
     *tilgjengelig/utleid -->
 
 {% endblock %}

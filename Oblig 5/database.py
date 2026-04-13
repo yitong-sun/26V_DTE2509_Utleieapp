@@ -47,7 +47,30 @@ class Database():
         self.cursor.execute("SELECT ut.UtstyrId, ut.UtstyrsType, ut.UtstyrsMerke, ut.UtstyrsModell, ut.Beskrivelse, kat.Beskrivelse, ut.LeiePrisDøgn, ut.AntallUtstyr, ut.AntallPåLager FROM utstyr as ut, utstyrskategori as kat WHERE ut.UtstyrsKatId = kat.UtstyrsKatId  ")
         return self.cursor.fetchall()
     
+    def get_filtered_utstyr(self, utstyr_type = None, kategori = None):
+        
+        query = "SELECT ut.UtstyrId, ut.UtstyrsType, ut.UtstyrsMerke, ut.UtstyrsModell, ut.Beskrivelse, kat.Beskrivelse, ut.LeiePrisDøgn, ut.AntallUtstyr, ut.AntallPåLager FROM utstyr as ut, utstyrskategori as kat WHERE ut.UtstyrsKatId = kat.UtstyrsKatId"
+        paramaters = []
 
+        if utstyr_type:
+            query += " AND ut.UtstyrsType= %s "
+            paramaters.append(utstyr_type)
+
+        if kategori:
+            query += " AND kat.Beskrivelse = %s "
+            paramaters.append(kategori)
+
+        self.cursor.execute(query, paramaters)
+        
+        return self.cursor.fetchall()
+    
+    def get_utstyr_typer(self):
+        self.cursor.execute("SELECT DISTINCT UtstyrsType FROM utstyr ORDER BY UtstyrsType")
+        return self.cursor.fetchall()
+    
+    def get_utstyr_kategorier(self):
+        self.cursor.execute("SELECT DISTINCT Beskrivelse FROM utstyrskategori ORDER BY Beskrivelse")
+        return self.cursor.fetchall()    
 
     
     #kunder
@@ -70,14 +93,28 @@ class Database():
 
 
     #utleie
+    #read utleie
+    def get_all_utleie(self):
+        self.cursor.execute("")
+        return self.cursor.fetchall()
     #create utleie
     def add_utleie(self): # not working yet
         self.cursor.execute("")
+        pass
     #edit utleie
     def update_utleie(self): # not working yet
         self.cursor.execute("")
+        pass
     
+    #Registrere utleie
+        #Velg kunde
+        #Velg Utstyr(kun tilgjengelig)
+        #Sett dato
+        #Automatisk registrer hvilken ansatt som ekspederer
 
+    #Registrer innlevering
+        #Marker utleie som levert
+        #Sett innleveringsdato  
 
     
     #Visninger
