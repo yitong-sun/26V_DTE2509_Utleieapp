@@ -110,9 +110,29 @@ class Database():
         return self.cursor.fetchall()
     
     #create utleie
-    def add_utleie(self): # not working yet
-        self.cursor.execute("")
-        pass
+    def add_utleie(self, kundebehandler_id, kunde_nr, utstyr_id, instans_id, leveres_kunde, betalingsmåte_id, start_dato): # not working yet
+        self.cursor.execute("INSERT INTO utleie (KundebehandlerId, KundeNr, UtstyrId, InstansId, LeveresKunde, BetalingsmåteId, UtleidDato) VALUES (%s, %s, %s,%s,%s,%s,%s)", 
+                            (kundebehandler_id, kunde_nr, utstyr_id, instans_id, leveres_kunde, betalingsmåte_id, start_dato))
+
+    def get_kunde_nr(self):
+        self.cursor.execute("SELECT KundeNr FROM kunde")
+        return self.cursor.fetchall()
+    
+    def get_utstyr_if_available(self):
+        self.cursor.execute("""SELECT concat(Utstyrid,'.',InstansId) 
+                                FROM instans 
+                                WHERE concat(Utstyrid,'.',InstansId) 
+                                NOT IN (SELECT concat(UtstyrId,'.',InstansId) FROM utleie WHERE InnlevertDato IS Null)""")
+        return self.cursor.fetchall()
+    
+    def get_betalingsmåter(self):
+        self.cursor.execute("SELECT Beskrivelse FROM betalingsmåte")
+        return self.cursor.fetchall()
+    
+    def get_betalingsmåte_id(self, betalingsmåte):
+        self.cursor.execute("SELECT BetalingsmåteId FROM betalingsmåte WHERE Beskrivelse = %s", (betalingsmåte,))
+        return self.cursor.fetchone()
+    
     #edit utleie
     def update_utleie(self): # not working yet
         self.cursor.execute("")

@@ -1,3 +1,2 @@
-                <!-- <a href="{{ url_for('kunder.all') }}" class="btn btn-secondary btn-sm">Kunder</a>
-                <a href="{{ url_for('utstyr.all') }}" class="btn btn-secondary btn-sm">Utstyr</a>
-                 -->
+<a href="{{ url_for('kunder.all') }}" class="btn btn-secondary btn-sm">Kunder</a>
+         

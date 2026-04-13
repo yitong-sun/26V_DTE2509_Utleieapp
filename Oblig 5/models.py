@@ -1,6 +1,6 @@
 from flask_login import UserMixin
 from flask_wtf import FlaskForm
-from wtforms import SelectField, SubmitField
+from wtforms import SelectField, SubmitField, DateField
 
 # Tabeller i databasen:
 
@@ -41,7 +41,7 @@ class Utleie():
         self.kundebehandler = kundebehandler
         self.leveres_kunde = leveres_kunde
         self.betalingsmåte = betalingsmåte
-        self.leverings_kostnad = leverings_kostnad
+        self.leverings_kostnad = leverings_kostnad if leverings_kostnad else 0.00
         self.total_pris = total_pris if total_pris else "Uberegnet"
 
 class Adresse():
@@ -115,7 +115,12 @@ class FilterUtstyrForm(FlaskForm):
     filter = SubmitField('Filter')
 
 class AddUtleieForm(FlaskForm):
-    pass
+    kunde_nr = SelectField('KundeNr:', choices=[], coerce=str)
+    avail_utstyr = SelectField('Tilgjengelig Utstyr:', choices=[], coerce=str)
+    betalings_måte = SelectField('Betalingsmåte:', choices=[], coerce=str )
+    leveres_kunde = SelectField('Leveres kunde?:', choices=[], coerce=str )
+    start_dato = DateField('Start Dato:', format='%Y-%m-%d')
+    submit = SubmitField('Legg til Utleie')
 
 class UpdateUtleieForm(FlaskForm):
     pass
