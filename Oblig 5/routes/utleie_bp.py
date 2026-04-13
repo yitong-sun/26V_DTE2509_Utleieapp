@@ -5,13 +5,13 @@ from models import Utleie
 
 utleie_bp = Blueprint('utleie',__name__)
 
-@utleie_bp.route('/utleie')
+@utleie_bp.route('/utleie', methods=['GET', 'POST'])
 @login_required
 def all():
     with Database() as db:
-        utstyrer = [Utleie(*utleie) for utleie in db.get_all_utleie()] #not implemented in Database yet
+        utleier = [Utleie(*utleie) for utleie in db.get_all_utleie()] #not implemented in Database yet
 
-    return render_template('utleie/read.html', uteleier=utleier)
+    return render_template('utleie/read.html', utleier=utleier)
 
 """ Registrere utleie
         *Velg kunde

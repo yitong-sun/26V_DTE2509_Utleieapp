@@ -44,12 +44,20 @@ class Database():
     
     #utstyr
     def get_all_utstyr(self):
-        self.cursor.execute("SELECT ut.UtstyrId, ut.UtstyrsType, ut.UtstyrsMerke, ut.UtstyrsModell, ut.Beskrivelse, kat.Beskrivelse, ut.LeiePrisDøgn, ut.AntallUtstyr, ut.AntallPåLager FROM utstyr as ut, utstyrskategori as kat WHERE ut.UtstyrsKatId = kat.UtstyrsKatId  ")
+        self.cursor.execute("""SELECT ut.UtstyrId, ut.UtstyrsType, ut.UtstyrsMerke, ut.UtstyrsModell, ut.Beskrivelse, 
+                            kat.Beskrivelse, ut.LeiePrisDøgn, ut.AntallUtstyr, ut.AntallPåLager 
+                            FROM utstyr as ut, utstyrskategori as kat 
+                            WHERE ut.UtstyrsKatId = kat.UtstyrsKatId """)
+        
         return self.cursor.fetchall()
     
     def get_filtered_utstyr(self, utstyr_type = None, kategori = None):
         
-        query = "SELECT ut.UtstyrId, ut.UtstyrsType, ut.UtstyrsMerke, ut.UtstyrsModell, ut.Beskrivelse, kat.Beskrivelse, ut.LeiePrisDøgn, ut.AntallUtstyr, ut.AntallPåLager FROM utstyr as ut, utstyrskategori as kat WHERE ut.UtstyrsKatId = kat.UtstyrsKatId"
+        query = """SELECT ut.UtstyrId, ut.UtstyrsType, ut.UtstyrsMerke, ut.UtstyrsModell, ut.Beskrivelse, kat.Beskrivelse, 
+                    ut.LeiePrisDøgn, ut.AntallUtstyr, ut.AntallPåLager 
+                    FROM utstyr as ut, utstyrskategori as kat 
+                    WHERE ut.UtstyrsKatId = kat.UtstyrsKatId"""
+
         paramaters = []
 
         if utstyr_type:
@@ -95,8 +103,12 @@ class Database():
     #utleie
     #read utleie
     def get_all_utleie(self):
-        self.cursor.execute("")
+        self.cursor.execute("""SELECT utl.UtleieId, utl.UtstyrId, utl.InstansId, utl.KundeNr, utl.UtleidDato, utl.InnlevertDato, 
+                                concat(kb.Fornavn,' ', kb.Etternavn), utl.LeveresKunde, bm.Beskrivelse, utl.LeveringsKostnad, utl.TotalPris 
+                                FROM utleie AS utl, kundebehandler AS kb, betalingsmåte AS bm 
+                                WHERE utl.KundebehandlerId = kb.KundebehandlerId AND utl.BetalingsmåteId = bm.BetalingsmåteId""")
         return self.cursor.fetchall()
+    
     #create utleie
     def add_utleie(self): # not working yet
         self.cursor.execute("")

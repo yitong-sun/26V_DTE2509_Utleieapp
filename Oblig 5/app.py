@@ -6,7 +6,7 @@ import secrets
 from routes.user_manager import users_bp, login_manager
 from routes.utstyr_bp import utstyr_bp
 #remove hash when implemented
-#from routes.utleie_bp import utleie_bp 
+from routes.utleie_bp import utleie_bp 
 #from routes.kunder_bp import kunder_bp
 from routes.statistikk_bp import statistikk_bp
 
@@ -23,7 +23,7 @@ login_manager.init_app(app)
 # remove hash when implemented
 app.register_blueprint(users_bp, url_prefix = '/users')
 app.register_blueprint(utstyr_bp, url_prefix = '/utstyr')
-#app.register_blueprint(utleie_bp, url_prefix = '/utstyr')
+app.register_blueprint(utleie_bp, url_prefix = '/utleie')
 #app.register_blueprint(kunder_bp, url_prefix = '/kunder')
 app.register_blueprint(statistikk_bp, url_prefix = '/statistikk')
 

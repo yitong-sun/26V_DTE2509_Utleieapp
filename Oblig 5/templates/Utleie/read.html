@@ -2,33 +2,38 @@
 {% block content %}
 
 <div class="container mt-4">
-    <h2 class="text-center">Kunde Listen</h2>
-    <a href="{{ url-for('kunder.add_kunde') }}" class="btn btn-success mb-3">Oppret Ny Kunde</a>
+    <h2 class="text-center">Utleie</h2>
     <table class="table table-bordered">
         <thead class="table-dark">
             <tr>
+                <th>Utleie Id</th>
+                <th>Utstyrs Id</th>
+                <th>Instans Id</th>
                 <th>KundeNr</th>
-                <th>Navn</th>
-                <th>E-post</th>
-                <th>Mobil</th>
-                <th>Faktura Adresse</th>
-                <th>Leverings Adresse</th>
+                <th>Utleid Dato</th>
+                <th>Innlevert Dato</th>
+                <th>Kundebehandler</th>
+                <th>Leveres Kunde</th>
+                <th>Betalingsmåte</th>
+                <th>Leveringskostnad</th>
+                <th>Total pris</th>                
+
             </tr>
         </thead>
         <tbody>
-            {% for kunde in kunder %}
+            {% for utleie in utleier %}
             <tr>
-                <td>{{ kunde.kundenr }}</td>
-                <td>{{ kunde.navn }}</td>
-                <td>{{ kunde.epost }}</td>
-                <td>{{ kunde.mobil }}</td>
-                <td>{{ kunde.fakt_adresse }}</td>
-                <td>{{ kunde.levering_adresse}}</td>
-                <td>
-                    <a href="{{ url_for('kunde.edit_kunde', kundenr= kunde.kundenr) }}" class="btn btn-primary btn-sm">Oppdatere</a>
-                    <form method="POST" action="{{ url_for('kunder.delete_kunde', kundenr = kunde.kundenr)}}" style="display: inline;">
-                    </form>
-                </td>
+                <td>{{ utleie.utleie_id }}</td>
+                <td>{{ utleie.utstyrs_id }}</td>
+                <td>{{ utleie.instans_id }}</td>
+                <td>{{ utleie.kunde_nr }}</td>
+                <td>{{ utleie.utleid_dato }}</td>
+                <td>{{ utleie.innlevert_dato}}</td>
+                <td>{{ utleie.kundebehandler}}</td>
+                <td>{{ utleie.leveres_kunde }}</td>
+                <td>{{ utleie.betalingsmåte}}</td>
+                <td>{{ utleie.leverings_kostnad }}</td>
+                <td>{{ utleie.total_pris}}</td>                
             </tr>
             {% endfor %}
         </tbody>

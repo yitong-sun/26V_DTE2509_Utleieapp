@@ -31,18 +31,18 @@ class Utstyr():
         self.antall_på_lager= antall_på_lager
 
 class Utleie():
-    def __init__(self, utleie_id, utstyrs_id, instans_id , kunde_nr, utleid_dato, innlevert_dato, kundebehandler_id, leveres_kunde, betalingsmåte_id, leverings_kostnad, total_pris ):
+    def __init__(self, utleie_id, utstyrs_id, instans_id , kunde_nr, utleid_dato, innlevert_dato, kundebehandler, leveres_kunde, betalingsmåte, leverings_kostnad, total_pris ):
         self.utleie_id = utleie_id
         self.utstyrs_id = utstyrs_id
         self.instans_id = instans_id 
         self.kunde_nr = kunde_nr
         self.utleid_dato = utleid_dato
-        self.innlevert_dato = innlevert_dato
-        self.kundebehandler_id = kundebehandler_id
+        self.innlevert_dato = innlevert_dato if innlevert_dato else "Ikke levert"
+        self.kundebehandler = kundebehandler
         self.leveres_kunde = leveres_kunde
-        self.betalingsmåte_id = betalingsmåte_id
+        self.betalingsmåte = betalingsmåte
         self.leverings_kostnad = leverings_kostnad
-        self.total_pris = total_pris
+        self.total_pris = total_pris if total_pris else "Uberegnet"
 
 class Adresse():
     def __init__(self, adresse_id, adresse_type_id, post_nr, adr_gate, adr_gate_nr):
