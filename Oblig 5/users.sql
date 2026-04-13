@@ -8,3 +8,4 @@ CREATE TABLE `users` (
     `role` ENUM('user', 'admin') DEFAULT 'user',
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+

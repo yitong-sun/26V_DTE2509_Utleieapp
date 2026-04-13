@@ -1,5 +1,6 @@
 from flask_login import UserMixin
 
+# Tabeller i databasen:
 class User(UserMixin):
     def __init__(self, id, name, email, role):
         self.id = id
@@ -7,42 +8,103 @@ class User(UserMixin):
         self.email = email
         self.role = role
 
-class Kunde(): #can edit this, 
-    def __init__(self, kundenr, navn, epost, mobil, fakt_adresse ,levering_adresse):
+class Kunde(): 
+    def __init__(self, kundenr, epost, mobil, fakt_adresse_id ,levering_adresse_id):
         self.kundenr = kundenr
-        self.navn = navn
         self.epost = epost
-        self.mobil = mobil
-        self.fakt_Adresse = fakt_adresse 
-        self.levering_Adresse  = levering_adresse
+        self.fakt_adresse_id = fakt_adresse_id 
+        self.levering_Adresse_id  = levering_adresse_id
 
 class Utstyr():
-    def __init__(self, UtstyrId, UtstyrsType, UtstyrsMerke, UtstyrsModell, Beskrivelse, UtstyrsKategori, leieprisdøgn, AntallUtstyr, AntallPåLager):
-        self.UtstyrId = UtstyrId
-        self.UtstyrsType = UtstyrsType
-        self.UtstyrsMerke = UtstyrsMerke
-        self.UtstyrsModell = UtstyrsModell
-        self.Beskrivelse = Beskrivelse
-        self.UtstyrsKategori= UtstyrsKategori
-        self.leieprisdøgn = "Utiljengelig" if leieprisdøgn == None else leieprisdøgn
-        self.AntallUtstyr= AntallUtstyr
-        self.AntallPåLager= AntallPåLager
+    def __init__(self, utstyr_id, utstyrs_type, utstyrs_merke, utstyrs_modell, beskrivelse, utstyrs_kategori, leie_pris_døgn, antall_utstyr, antall_på_lager):
+        self.utstyr_id = utstyr_id
+        self.utstyrs_type = utstyrs_type
+        self.utstyrs_merke = utstyrs_merke
+        self.utstyrs_modell = utstyrs_modell
+        self.beskrivelse = beskrivelse
+        self.utstyrs_kategori= utstyrs_kategori
+        self.leie_pris_døgn = "Utiljengelig" if leie_pris_døgn == None else leie_pris_døgn
+        self.antall_utstyr= antall_utstyr
+        self.antall_på_lager= antall_på_lager
 
 class Utleie():
-    def __init__(self, UtleieId, UtstyrsId, InstansId, KundeNr, UtleidDato, InlevertDato, KundebehandlerId,Levereskunde,BetalingsmåteId, Leveringskostnad, Totalpris ):
-        self.UtleieId = UtleieId
-        self.UtstyrsId = UtstyrsId
-        self.InstansId = InstansId
-        self.KundeNr = KundeNr
-        self.UtleidDato = UtleidDato
-        self.InlevertDato = InlevertDato
-        self.KundebehandlerId = KundebehandlerId
-        self.Levereskunde = Levereskunde
-        self.BetalingsmåteId = BetalingsmåteId
-        self.Leveringskostnad = Leveringskostnad
-        self.Totalpris = Totalpris
+    def __init__(self, utleie_id, utstyrs_id, instans_id , kunde_nr, utleid_dato, innlevert_dato, kundebehandler_id, leveres_kunde, betalingsmåte_id, leverings_kostnad, total_pris ):
+        self.utleie_id = utleie_id
+        self.utstyrs_id = utstyrs_id
+        self.instans_id = instans_id 
+        self.kunde_nr = kunde_nr
+        self.utleid_dato = utleid_dato
+        self.innlevert_dato = innlevert_dato
+        self.kundebehandler_id = kundebehandler_id
+        self.leveres_kunde = leveres_kunde
+        self.betalingsmåte_id = betalingsmåte_id
+        self.leverings_kostnad = leverings_kostnad
+        self.total_pris = total_pris
 
-#visninger
+class Adresse():
+    def __init__(self, adresse_id, adresse_type_id, post_nr, adr_gate, adr_gate_nr):
+        self.adresse_id = adresse_id
+        self.adresse_type_id = adresse_type_id
+        self.post_nr = post_nr
+        self.adr_gate = adr_gate
+        self.adr_gate_nr = adr_gate_nr
+
+class AdresseType():
+    def __init__(self, adresse_type_id, beskrivelse):
+        self.adresse_type_id = adresse_type_id
+        self.beskrivelse = beskrivelse
+
+
+class BedrifKunde():
+    def __init__(self, kunde_nr, kunde_navn):
+        self.kunde_nr = kunde_nr
+        self.kunde_navn = kunde_navn
+
+
+class Betalingsmåte():
+    def __init__(self, betalingsmåte_id, beskrivelse):
+        self.betalingsmåte_id = betalingsmåte_id
+        self.beskrivelse = beskrivelse
+
+class Instans():
+    def __init__(self, instans_id, utstyr_id, siste_vedlikehold, neste_vedlikehold):
+        self.instans_id = instans_id
+        self.utstyr_id = utstyr_id
+        self.siste_vedlikehold = siste_vedlikehold
+        self.neste_vedlikehold = neste_vedlikehold
+
+class Kundebehandler():
+    def __init__(self, kundebehandler_id, fornavn, etternavn, telefon_nr):
+        self.kundebehandler_id = kundebehandler_id
+        self.fornavn = fornavn
+        self.etternavn = etternavn
+        self.telefon_nr = telefon_nr
+
+class KundeTelefon():
+    def __init__(self, kunde_nr, telefon_nr):
+        self.kunde_nr = kunde_nr
+        self.telefon_nr = telefon_nr
+
+
+class Poststed():
+    def __init__(self, post_nr, post_sted):
+        self.post_nr = post_nr
+        self.post_sted = post_sted
+
+
+class PrivatKunde():
+    def __init__(self, kunde_nr, fornavn, etternavn):
+        self.kunde_nr = kunde_nr
+        self.fornavn = fornavn
+        self.etternavn = etternavn
+
+
+class UtstyrsKategori():
+    def __init__(self, utstyrs_kat_id, beskrivelse):
+        self.utstyrs_kat_id = utstyrs_kat_id
+        self.beskrivelse = beskrivelse
+
+#visninger:
 
 #B
 class Utleie_Aktiv(): 

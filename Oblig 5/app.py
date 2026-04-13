@@ -1,15 +1,21 @@
 from flask import Flask, render_template, redirect, url_for, request
 from flask_login import login_required
+from flask_wtf import CSRFProtect
+import secrets
+
 from routes.user_manager import users_bp, login_manager
 from routes.utstyr_bp import utstyr_bp
 #remove hash when implemented
 #from routes.utleie_bp import utleie_bp 
 #from routes.kunder_bp import kunder_bp
 from routes.statistikk_bp import statistikk_bp
-import secrets
+
+#must remember to add CSRFProtect for WTF
 
 app = Flask(__name__)
 app.secret_key = secrets.token_urlsafe(16)
+csrf = CSRFProtect(app)
+
 login_manager.init_app(app)
 
 
