@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, request, Blueprint
+from flask import render_template, redirect, url_for, request, Blueprint, jsonify
 from flask_login import login_required, current_user
 from database import Database
 from models import Kunde
@@ -64,6 +64,17 @@ def all():
     return render_template('Kunder/read.html', kunder=kunder)
 
 
+@kunder_bp.route('/check_kundenr')
+@login_required
+def check_kundenr():
+    kundenr = request.args.get('kundenr')
+
+    with Database() as db:
+        kunde = db.get_kunde_by_kundenr(kundenr)
+
+    return jsonify({'exists': kunde is not None})
+
+
 @kunder_bp.route('/add', methods=['GET', 'POST'])
 @login_required
 def add_kunde():
@@ -72,20 +83,45 @@ def add_kunde():
     if request.method == 'POST':
         kundenr = request.form['kundenr']
         kundetype = request.form['kundetype']
-        fornavn = request.form['fornavn']
-        etternavn = request.form['etternavn']
-        kundenavn = request.form['kundenavn']
+        fornavn = request.form.get('fornavn', '')
+        etternavn = request.form.get('etternavn', '')
+        kundenavn = request.form.get('kundenavn', '')
         epost = request.form['epost']
         mobil = request.form['mobil']
         fakt_adresse = request.form['fakt_adresse']
         levering_adresse = request.form['levering_adresse']
 
+        print("FAKT_ADRESSE_FORM:", repr(fakt_adresse))
+        print("LEVERING_ADRESSE_FORM:", repr(levering_adresse))
+
         fakt_split = [x.strip() for x in fakt_adresse.split(',')]
         lev_split = [x.strip() for x in levering_adresse.split(',')]
 
+        print("FAKT_SPLIT:", fakt_split)
+        print("LEV_SPLIT:", lev_split)
+
+
         if len(fakt_split) != 3 or len(lev_split) != 3:
             error = 'Adresse må være på format: Gate, Nummer, PostNr'
-            return render_template('Kunder/add_edit.html', kunde=None, error=error)
+
+            kunde_obj = Kunde(
+                kundenr,
+                epost,
+                0,
+                0,
+                [mobil] if mobil else [],
+                "",
+                fakt_adresse,
+                levering_adresse
+            )
+
+            kunde_obj.kundetype = kundetype
+            kunde_obj.fornavn = fornavn
+            kunde_obj.etternavn = etternavn
+            kunde_obj.kundenavn = kundenavn
+
+            return render_template('Kunder/add_edit.html', kunde=kunde_obj, error=error)
+
 
         fakt_gate = fakt_split[0]
         fakt_nr = fakt_split[1]
@@ -118,11 +154,40 @@ def add_kunde():
             return redirect(url_for('kunder.all'))
 
         except IntegrityError:
+
             error = 'KundeNr finnes allerede. Velg et annet kundenummer.'
 
+            kunde_obj = Kunde(
+
+                kundenr,
+
+                epost,
+
+                0,
+
+                0,
+
+                [mobil] if mobil else [],
+
+                "",
+
+                fakt_adresse,
+
+                levering_adresse
+
+            )
+
+            kunde_obj.kundetype = kundetype
+
+            kunde_obj.fornavn = fornavn
+
+            kunde_obj.etternavn = etternavn
+
+            kunde_obj.kundenavn = kundenavn
+
+            return render_template('Kunder/add_edit.html', kunde=kunde_obj, error=error)
+
     return render_template('Kunder/add_edit.html', kunde=None, error=error)
-
-
 
 
 @kunder_bp.route('/edit/<int:kundenr>', methods=['GET', 'POST'])
@@ -133,9 +198,9 @@ def edit_kunde(kundenr):
     if request.method == 'POST':
         kundenr = request.form['kundenr']
         kundetype = request.form['kundetype']
-        fornavn = request.form['fornavn']
-        etternavn = request.form['etternavn']
-        kundenavn = request.form['kundenavn']
+        fornavn = request.form.get('fornavn', '')
+        etternavn = request.form.get('etternavn', '')
+        kundenavn = request.form.get('kundenavn', '')
         epost = request.form['epost']
         mobil = request.form['mobil']
         fakt_adresse = request.form['fakt_adresse']

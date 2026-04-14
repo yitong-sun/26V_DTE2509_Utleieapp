@@ -21,10 +21,10 @@ SET @@SESSION.SQL_LOG_BIN= 0;
 -- GTID state at the beginning of the backup 
 --
 
-SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ '336102b3-efa9-11f0-8734-9cda3e867675:1-336,
-8d484176-ec89-11f0-9c75-4ccc6add35f6:1-189,
-c39c862c-31a1-11f1-9800-9082c340a2b7:1-47,
-cd8c833a-f055-11f0-bc3c-ad3c23fe8fd3:1-1379';
+-- SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ '336102b3-efa9-11f0-8734-9cda3e867675:1-336,
+-- 8d484176-ec89-11f0-9c75-4ccc6add35f6:1-189,
+-- c39c862c-31a1-11f1-9800-9082c340a2b7:1-47,
+-- cd8c833a-f055-11f0-bc3c-ad3c23fe8fd3:1-1379';
 
 --
 -- Table structure for table `adresse`

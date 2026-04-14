@@ -12,10 +12,11 @@
     {% endif %}
 
     <form method="POST">
-        {{ form.hidden_tag() }}
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <div class="mb-3">
             <label for="kundenr" class="form-label">KundeNr</label>
             <input type="text" class="form-control" id="kundenr" name="kundenr" value="{{ kunde.kundenr if kunde else '' }}" {% if kunde %}readonly{% endif %}>
+            <div id="kundenr-feedback" class="form-text"></div>
         </div>
 
         <div class="mb-3">
@@ -59,12 +60,18 @@
 
         <div class="mb-3">
             <label for="fakt_adresse" class="form-label">Faktura Adresse</label>
-            <input type="text" class="form-control" id="fakt_adresse" name="fakt_adresse" value="{{ kunde.fakt_adresse if kunde else '' }}">
+            <input type="text" class="form-control" id="fakt_adresse" name="fakt_adresse"
+       value="{{ kunde.fakt_adresse if kunde else '' }}"
+       placeholder="Gate, Nummer, PostNr"
+       title="Format: Gate, Nummer, PostNr. For eksempel: Murergata, 1, 9001">
         </div>
 
         <div class="mb-3">
             <label for="levering_adresse" class="form-label">Levering Adresse</label>
-            <input type="text" class="form-control" id="levering_adresse" name="levering_adresse" value="{{ kunde.levering_adresse if kunde else '' }}">
+            <input type="text" class="form-control" id="levering_adresse" name="levering_adresse"
+       value="{{ kunde.levering_adresse if kunde else '' }}"
+       placeholder="Gate, Nummer, PostNr"
+       title="Format: Gate, Nummer, PostNr. For eksempel: Veien, 4, 8000">
         </div>
 
         <button type="submit"   class="btn btn-primary">{{'Oppdatere' if kunde else 'Legge til'}} Kunde</button>
@@ -75,6 +82,8 @@
         const kundenavn = document.getElementById("kundenavn");
         const fornavn = document.getElementById("fornavn");
         const etternavn = document.getElementById("etternavn");
+        const kundenr = document.getElementById("kundenr");
+        const kundenrFeedback = document.getElementById("kundenr-feedback");
 
         function updateKundenavnState() {
             if (kundetype.value === "privat") {
@@ -102,11 +111,37 @@
             }
         }
 
+        function checkKundenr() {
+            if (!kundenr || kundenr.readOnly) {
+                return;
+            }
+
+            const value = kundenr.value.trim();
+
+            if (value === "") {
+                kundenrFeedback.textContent = "";
+                return;
+            }
+
+            fetch(`/kunder/check_kundenr?kundenr=${encodeURIComponent(value)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.exists) {
+                        kundenrFeedback.textContent = "KundeNr finnes allerede.";
+                        kundenrFeedback.className = "text-danger";
+                    } else {
+                        kundenrFeedback.textContent = "KundeNr er tilgjengelig.";
+                        kundenrFeedback.className = "text-success";
+                    }
+                });
+        }
+
         // intially set the state of kundenavn based on the current kundetype value
         updateKundenavnState();
 
         // add event listener to update the state of kundenavn when kundetype changes
         kundetype.addEventListener("change", updateKundenavnState);
+        kundenr.addEventListener("blur", checkKundenr);
     });
     </script>
 </div>
