@@ -2,7 +2,36 @@
 {% extends "base.html" %}
 {% block content %}
 
-<!--A: Kundeliste -->
+<!--A: Kundeliste
+    *Vis som tabell i web-->
+<div class="container mt-4">
+    <h2 class="text-center">Kundeliste</h2>
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>KundeNr</th>
+                <th>Navn</th>
+                <th>E-post</th>
+                <th>Mobil</th>
+                <th>Faktura Adresse</th>
+                <th>Leverings Adresse</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for kunde in kunder %}
+            <tr>
+                <td>{{ kunde.kundenr }}</td>
+                <td>{{ kunde.navn }}</td>
+                <td>{{ kunde.epost }}</td>
+                <td>{{ kunde.mobil }}</td>
+                <td>{{ kunde.fakt_adresse }}</td>
+                <td>{{ kunde.levering_adresse }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
 
 <!--B: Aktive utleier -->
 
@@ -81,6 +110,32 @@
 
 <!--E: Mest utleid utstyr-->
 
+<div class="container mt-4">
+    <h2 class="text-center">Mest utleid utstyr</h2>
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Antall ganger utleid</th>
+                <th>UtstyrsMerke </th>
+                <th>UtstyrsModell</th>
+                <th>UtstyrsType</th>
+                <th>UtstyrsKategori</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for utstyr in flest_utleid_utstyrer %}
+            <tr class="{% if utstyr.antall_ganger_utleid == flest_antall %}table-warning{% else %}table-light{% endif %}">
+                <td>{{ utstyr.antall_ganger_utleid }}</td>
+                <td>{{ utstyr.utstyrs_merke}}</td>
+                <td>{{ utstyr.utstyrs_modell }}</td>
+                <td>{{ utstyr.utstyrs_type }}</td>
+                <td>{{ utstyr.utstyrs_kat }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
 {% endblock %}
 
 
@@ -97,11 +152,11 @@
     *Antall komplette utleier i valgt periode
     (kan være hardkodet periode)-->
 
-    
+
 <!--Implemented: D: Inntekt per utstyr
     *Vis som liste/tabell
     *sorter synkende -->
-    
+
 
 <!--E: Mest utleid utstyr
     *Highlight toppresultatet-->

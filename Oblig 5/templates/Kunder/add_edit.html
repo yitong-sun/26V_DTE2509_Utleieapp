@@ -2,35 +2,112 @@
 {% block content %}
 
 <!-- Everthing here should technically work but needs the database fuctions to be done-->
-<div class="conatianer mt-4">
-    <h2>{{ 'Oppdatere' if kunde else 'Legge til'}} Kunde</h2>
+<div class="container mt-4">
+    <h2>{{ 'Oppdatere' if kunde else 'Legge til' }} Kunde</h2>
+
+    {% if error %}
+    <div class="alert alert-danger">
+        {{ error }}
+    </div>
+    {% endif %}
+
     <form method="POST">
         {{ form.hidden_tag() }}
         <div class="mb-3">
-            <label for="kundenr" clss="form-label">KundeNr</label>
-            <input type="text" class="form-control" id="kundenr" name="kundenr" value="{{ kunde.kundenr if kunde else ''}}" required>
+            <label for="kundenr" class="form-label">KundeNr</label>
+            <input type="text" class="form-control" id="kundenr" name="kundenr" value="{{ kunde.kundenr if kunde else '' }}" {% if kunde %}readonly{% endif %}>
         </div>
+
         <div class="mb-3">
-            <label for="navn" clss="form-label">Navn</label>
-            <input type="text" class="form-control" id="navn" name="navn" value="{{ kunde.navn if kunde else ''}}" required>
+            <label for="kundetype" class="form-label">Kundetype</label>
+                <select class="form-control" id="kundetype" name="kundetype">
+                    <option value="privat" {% if kunde and kunde.kundetype == 'privat' %}selected{% endif %}>Privat</option>
+                    <option value="bedrift" {% if kunde and kunde.kundetype == 'bedrift' %}selected{% endif %}>Bedrift</option>
+                </select>
         </div>
+
         <div class="mb-3">
-            <label for="epost" clss="form-label">Epost</label>
-            <input type="text" class="form-control" id="epost" name="epost" value="{{ kunde.epost if kunde else ''}}" required>
+            <label for="fornavn" class="form-label">Fornavn</label>
+            <input type="text" class="form-control" id="fornavn" name="fornavn"
+       value="{{ kunde.fornavn if kunde else '' }}"
+       title="Not applicable for bedrift kunde">
         </div>
+
         <div class="mb-3">
-            <label for="mobil" clss="form-label">Mobil</label>
-            <input type="text" class="form-control" id="mobil" name="mobil" value="{{ kunde.mobil if kunde else ''}}" required>
+            <label for="etternavn" class="form-label">Etternavn</label>
+            <input type="text" class="form-control" id="etternavn" name="etternavn"
+       value="{{ kunde.etternavn if kunde else '' }}"
+       title="Not applicable for bedrift kunde">
         </div>
+
         <div class="mb-3">
-            <label for="fakt_adresse" clss="form-label">Faktura Adresse</label>
-            <input type="text" class="form-control" id="fakt_adresse" name="fakt_adresse" value="{{ kunde.fakt_adresse if kunde else ''}}" required>
+            <label for="kundenavn" class="form-label">Bedriftsnavn</label>
+            <input type="text" class="form-control" id="kundenavn" name="kundenavn"
+       value="{{ kunde.kundenavn if kunde else '' }}"
+       title="Not applicable for privat kunde">
         </div>
+
         <div class="mb-3">
-            <label for="levering_adresse" clss="form-label">Levering Adresse</label>
-            <input type="text" class="form-control" id="levering_adresse" name="levering_adresse" value="{{ kunde.levering_adresse if kunde else ''}}" required>
+            <label for="epost" class="form-label">Epost</label>
+            <input type="email" class="form-control" id="epost" name="epost" value="{{ kunde.epost if kunde else '' }}">
         </div>
+
+        <div class="mb-3">
+            <label for="mobil" class="form-label">Mobil</label>
+            <input type="text" class="form-control" id="mobil" name="mobil" value="{{ kunde.mobil if kunde else '' }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="fakt_adresse" class="form-label">Faktura Adresse</label>
+            <input type="text" class="form-control" id="fakt_adresse" name="fakt_adresse" value="{{ kunde.fakt_adresse if kunde else '' }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="levering_adresse" class="form-label">Levering Adresse</label>
+            <input type="text" class="form-control" id="levering_adresse" name="levering_adresse" value="{{ kunde.levering_adresse if kunde else '' }}">
+        </div>
+
         <button type="submit"   class="btn btn-primary">{{'Oppdatere' if kunde else 'Legge til'}} Kunde</button>
     </form>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const kundetype = document.getElementById("kundetype");
+        const kundenavn = document.getElementById("kundenavn");
+        const fornavn = document.getElementById("fornavn");
+        const etternavn = document.getElementById("etternavn");
+
+        function updateKundenavnState() {
+            if (kundetype.value === "privat") {
+                // Privat → lock Bedriftsnavn
+                kundenavn.disabled = true;
+                kundenavn.value = "";
+
+                // Privat → unlock navn
+                fornavn.disabled = false;
+                etternavn.disabled = false;
+
+            }
+            else {
+                // Bedrift → unlock Bedriftsnavn
+                kundenavn.disabled = false;
+
+                // Bedrift → lockq
+                //
+                // navn
+                fornavn.disabled = true;
+                etternavn.disabled = true;
+
+                fornavn.value = "";
+                etternavn.value = "";
+            }
+        }
+
+        // intially set the state of kundenavn based on the current kundetype value
+        updateKundenavnState();
+
+        // add event listener to update the state of kundenavn when kundetype changes
+        kundetype.addEventListener("change", updateKundenavnState);
+    });
+    </script>
 </div>
 {% endblock %}

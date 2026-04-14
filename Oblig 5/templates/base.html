@@ -13,6 +13,7 @@
         <div class="text-center">
             {% if current_user.is_authenticated %}
                 <a href="{{ url_for('home') }}" class="btn btn-secondary btn-sm">Home</a>
+                <a href="{{ url_for('kunder.all') }}" class="btn btn-secondary btn-sm">Kunder</a>
                 <a href="{{ url_for('users.profile') }}" class="btn btn-secondary btn-sm">Min side</a>
                 <a href="{{ url_for('utstyr.all') }}" class="btn btn-secondary btn-sm">Utstyr</a>
                 <a href="{{ url_for('utleie.all') }}" class="btn btn-secondary btn-sm">Utleie</a>
