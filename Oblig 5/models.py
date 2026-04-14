@@ -6,9 +6,10 @@ from wtforms.validators import DataRequired
 # Tabeller i databasen:
 
 class User(UserMixin):
-    def __init__(self, id, name, email, role):
+    def __init__(self, id, fornavn, etternavn, email, role):
         self.id = id
-        self.name = name
+        self.fornavn = fornavn
+        self.etternavn = etternavn
         self.email = email
         self.role = role
 
@@ -42,7 +43,7 @@ class Utleie():
         self.kundebehandler = kundebehandler
         self.leveres_kunde = leveres_kunde
         self.betalingsmåte = betalingsmåte
-        self.leverings_kostnad = leverings_kostnad if leverings_kostnad else 0.00
+        self.leverings_kostnad = leverings_kostnad if leverings_kostnad else "0.00"
         self.total_pris = total_pris if total_pris else "Uberegnet"
 
 class Adresse():

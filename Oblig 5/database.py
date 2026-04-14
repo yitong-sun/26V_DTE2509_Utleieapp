@@ -32,16 +32,21 @@ class Database():
         self.cursor.execute("SELECT * FROM user WHERE id = %s", (user_id,))
         return self.cursor.fetchone()
     
-    def create_user(self, name, email, password):
-        self.cursor.execute("INSERT INTO user (name, email, password_hash, role) VALUES (%s, %s, %s, 'user')", (name, email, password))
+    def create_user(self, id, fornavn, etternavn, email, password):
+        self.cursor.execute("INSERT INTO user (id, fornavn, etternavn, email, password_hash, role) VALUES (%s, %s, %s, %s, %s, 'user')", (id, fornavn, etternavn, email, password))
         return 
         
     def load_user_by_email(self, email):
         self.cursor.execute("SELECT * FROM user WHERE email = %s;", (email,))
         return self.cursor.fetchone()
     
+    def create_kundebehandler(self, id, fornavn, etternavn):
+        self.cursor.execute("INSERT INTO kundebehandler (KundebehandlerId, Fornavn, Etternavn) VALUES (%s, %s, %s)", (id, fornavn, etternavn))
 
-    
+    def check_id_in_use(self, id):
+        self.cursor.execute("SELECT EXISTS(SELECT id FROM user WHERE id = %s)", (id,))
+        return self.cursor.fetchone()
+
     #utstyr
     def get_all_utstyr(self):
         self.cursor.execute("""SELECT ut.UtstyrId, ut.UtstyrsType, ut.UtstyrsMerke, ut.UtstyrsModell, ut.Beskrivelse, 
@@ -106,7 +111,8 @@ class Database():
         self.cursor.execute("""SELECT utl.UtleieId, utl.UtstyrId, utl.InstansId, utl.KundeNr, utl.UtleidDato, utl.InnlevertDato, 
                                 concat(kb.Fornavn,' ', kb.Etternavn), utl.LeveresKunde, bm.Beskrivelse, utl.LeveringsKostnad, utl.TotalPris 
                                 FROM utleie AS utl, kundebehandler AS kb, betalingsmåte AS bm 
-                                WHERE utl.KundebehandlerId = kb.KundebehandlerId AND utl.BetalingsmåteId = bm.BetalingsmåteId""")
+                                WHERE utl.KundebehandlerId = kb.KundebehandlerId AND utl.BetalingsmåteId = bm.BetalingsmåteId
+                                ORDER BY utl.UtleieId ASC""")
         return self.cursor.fetchall()
     
     #create utleie
@@ -158,12 +164,16 @@ class Database():
         return self.cursor.fetchall()
     
     #B  Aktive utleier ("Ikke innlevert", filtrer på inlogget ansatt)
-    def aktive_utleier(self, KundeBehandlerId):
+    def aktive_utleier(self, kundebehandler_id):
         self.cursor.execute(""" SELECT utl.UtleidDato, utl.InnlevertDato, utl.KundeNr, ut.UtstyrId, ut.UtstyrsMerke, ut.UtstyrsModell, ut.UtstyrsType
                                 FROM utleie as utl, Utstyr AS ut, kundebehandler AS kb
                                 WHERE utl.UtstyrId = ut.utstyrid AND utl.KundebehandlerId = kb.KundebehandlerId 
-                                AND kb.KundebehandlerId = %s AND utl.Innlevertdato is null; """, (KundeBehandlerId,))
+                                AND kb.KundebehandlerId = %s AND utl.Innlevertdato is null; """, (kundebehandler_id,))
         return self.cursor.fetchall()
+    
+    def get_kundebehandler_navn(self, kundebehandler_id):
+        self.cursor.execute("SELECT concat(Fornavn,' ', Etternavn) FROM kundebehandler WHERE KundebehandlerId = %s", (kundebehandler_id,))
+        return self.cursor.fetchone()
     
     #C Statistikk: Teller opp antall komplette utleier i valgt periode 
     def komplette_utleier(self):

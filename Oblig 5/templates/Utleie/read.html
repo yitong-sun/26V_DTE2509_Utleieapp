@@ -29,7 +29,7 @@
                 <td>{{ utleie.instans_id }}</td>
                 <td>{{ utleie.kunde_nr }}</td>
                 <td>{{ utleie.utleid_dato }}</td>
-                <td>{% if utleie.innlevert_dato == None %} 
+                <td>{% if utleie.innlevert_dato == "Ikke levert" %} 
                     <a href="{{ url_for('utleie.edit_innlevert_utleie', utleie_id=utleie.utleie_id) }}" class="btn btn-warning btn-sm">Oppdater Innlevert dato</a> 
                     {% else %} {{ utleie.innlevert_dato}} {% endif %}</td>
                 <td>{{ utleie.kundebehandler}}</td>

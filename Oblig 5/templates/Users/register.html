@@ -3,11 +3,22 @@
 
 <div>
     <h2>Registrer</h2>
+    {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+    {% endif %}
     <form action="{{ url_for('users.register') }}" method="POST">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <div class="form-group">
-            <label for="name">Navn:</label>
-            <input type="text" name="name" id="name" class="form-control" required>
+            <label for="id">Id:</label>
+            <input type="number" name="id" id="id" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="fornavn">Fornavn:</label>
+            <input type="text" name="fornavn" id="fornavn" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="etternavn">Etternavn:</label>
+            <input type="text" name="etternavn" id="etternavn" class="form-control" required>
         </div>
         <div class="form-group">
             <label for="email">Epost:</label>

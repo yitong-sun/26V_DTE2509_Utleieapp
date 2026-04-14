@@ -14,6 +14,7 @@ def all_statistikk():
 
         #B aktive utleier
         aktive_utleier = [Utleie_Aktiv(*utleie) for utleie in db.aktive_utleier(current_user.id)]
+        kundebehandler_navn = db.get_kundebehandler_navn(current_user.id)[0]
         #C Komplette utleier
         antall_komplette_utleier = db.komplette_utleier()[0]
         #D Innetkt per utstyr
@@ -24,6 +25,7 @@ def all_statistikk():
                            #variabler: 
                            utstyrer=utstyrer, 
                            antall_komplette_utleier=antall_komplette_utleier,
-                           aktive_utleier= aktive_utleier)
+                           aktive_utleier= aktive_utleier,
+                           kundebehandler_navn= kundebehandler_navn)
 
 

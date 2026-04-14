@@ -1,2 +1,5 @@
 <a href="{{ url_for('kunder.all') }}" class="btn btn-secondary btn-sm">Kunder</a>
          
+new user needs to be added to kundebehandler to create new id
+
+error message date utleie

@@ -13,19 +13,25 @@ def load_user(user_id):
     with Database() as db:
         user = db.load_user(user_id)
         if user:
-            return User(user[0], user[1], user[2], user[4])
+            return User(user[0], user[1], user[2], user[3], user[6])
         return None
 
 @users_bp.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == "POST":
-        name = request.form['name']
+        kundeb_id = request.form['id']
+        fornavn = request.form['fornavn']
+        etternavn = request.form['etternavn']
         email = request.form['email']
         password = generate_password_hash(request.form['password'])
 
         with Database() as db:
-            db.create_user(name, email, password)
-        return redirect( url_for('users.login') )
+            if db.check_id_in_use(kundeb_id)[0] == True:
+                return render_template('users/register.html', error = "ID allerede i bruk")
+            else:
+                db.create_user(kundeb_id, fornavn, etternavn, email, password)
+                db.create_kundebehandler(kundeb_id,fornavn, etternavn)
+            return redirect( url_for('users.login') )
     return render_template("users/register.html")
 
 @users_bp.route('/login', methods=['GET', 'POST'])
@@ -37,8 +43,8 @@ def login():
         with Database() as db:
             user = db.load_user_by_email(email)
 
-            if user and check_password_hash(user[3], password):
-                login_user(User(user[0], user[1], user[2], user[4]))
+            if user and check_password_hash(user[4], password):
+                login_user(User(user[0], user[1], user[2], user[3], user[6]))
                 return redirect( url_for('home'))
             
         return render_template('users/login.html', error = "Invalid credentials")
