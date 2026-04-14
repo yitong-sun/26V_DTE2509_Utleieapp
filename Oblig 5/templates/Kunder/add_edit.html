@@ -27,17 +27,23 @@
 
         <div class="mb-3">
             <label for="fornavn" class="form-label">Fornavn</label>
-            <input type="text" class="form-control" id="fornavn" name="fornavn" value="{{ kunde.fornavn if kunde else '' }}">
+            <input type="text" class="form-control" id="fornavn" name="fornavn"
+       value="{{ kunde.fornavn if kunde else '' }}"
+       title="Not applicable for bedrift kunde">
         </div>
 
         <div class="mb-3">
             <label for="etternavn" class="form-label">Etternavn</label>
-            <input type="text" class="form-control" id="etternavn" name="etternavn" value="{{ kunde.etternavn if kunde else '' }}">
+            <input type="text" class="form-control" id="etternavn" name="etternavn"
+       value="{{ kunde.etternavn if kunde else '' }}"
+       title="Not applicable for bedrift kunde">
         </div>
 
         <div class="mb-3">
             <label for="kundenavn" class="form-label">Bedriftsnavn</label>
-            <input type="text" class="form-control" id="kundenavn" name="kundenavn" value="{{ kunde.kundenavn if kunde else '' }}">
+            <input type="text" class="form-control" id="kundenavn" name="kundenavn"
+       value="{{ kunde.kundenavn if kunde else '' }}"
+       title="Not applicable for privat kunde">
         </div>
 
         <div class="mb-3">
@@ -62,5 +68,43 @@
 
         <button type="submit"   class="btn btn-primary">{{'Oppdatere' if kunde else 'Legge til'}} Kunde</button>
     </form>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const kundetype = document.getElementById("kundetype");
+        const kundenavn = document.getElementById("kundenavn");
+        const fornavn = document.getElementById("fornavn");
+        const etternavn = document.getElementById("etternavn");
+
+        function updateKundenavnState() {
+            if (kundetype.value === "privat") {
+                // Privat → lock Bedriftsnavn
+                kundenavn.disabled = true;
+                kundenavn.value = "";
+
+                // Privat → unlock navn
+                fornavn.disabled = false;
+                etternavn.disabled = false;
+
+            }
+            else {
+                // Bedrift → unlock Bedriftsnavn
+                kundenavn.disabled = false;
+
+                // Bedrift → lock navn
+                fornavn.disabled = true;
+                etternavn.disabled = true;
+
+                fornavn.value = "";
+                etternavn.value = "";
+            }
+        }
+
+        // intially set the state of kundenavn based on the current kundetype value
+        updateKundenavnState();
+
+        // add event listener to update the state of kundenavn when kundetype changes
+        kundetype.addEventListener("change", updateKundenavnState);
+    });
+    </script>
 </div>
 {% endblock %}
