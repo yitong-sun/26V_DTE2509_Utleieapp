@@ -196,6 +196,11 @@ class Database():
     #E Mest utleid utstyr: (Highlight topresultatet)Vis det utstyret som er leid ut flest ganger, dvs. uavhengig av instansId.
     def flest_utleid_utstyr(self):
         self.cursor.execute("""SELECT AU.AntUtleid, Ut.UtstyrsMerke, Ut.UtstyrsModell, Ut.UtstyrsType, utkat.Beskrivelse AS Kategori
-                                FROM utstyr AS Ut, (SELECT COUNT(*) AS AntUtleid, Utstyrid FROM Utleie GROUP BY utstyrid ORDER BY Antutleid DESC LIMIT 1) as AU, utstyrskategori AS utkat
+                                FROM utstyr AS Ut, (SELECT COUNT(*) AS AntUtleid, Utstyrid FROM Utleie GROUP BY utstyrid ORDER BY Antutleid DESC) as AU, utstyrskategori AS utkat
                                 WHERE Ut.utstyrid = AU.UtstyrId AND Ut.UtstyrsKatId = utkat.UtstyrsKatId;""")
         return self.cursor.fetchall()
+    
+    def get_top_flest_utleid_utstyr_antall(self):        
+        self.cursor.execute("""SELECT COUNT(*) AS AntUtleid FROM Utleie GROUP BY utstyrid ORDER BY Antutleid DESC LIMIT 1""")
+        return self.cursor.fetchone()
+

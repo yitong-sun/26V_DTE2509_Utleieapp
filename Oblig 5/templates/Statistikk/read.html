@@ -81,6 +81,33 @@
 
 <!--E: Mest utleid utstyr-->
 
+<div class="container mt-4">
+    <h2 class="text-center">Mest utleid utstyr</h2>
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Antall ganger utleid</th>
+                <th>UtstyrsMerke </th>
+                <th>UtstyrsModell</th>
+                <th>UtstyrsType</th>
+                <th>UtstyrsKategori</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for utstyr in flest_utleid_utstyrer %}
+            <tr class="{% if utstyr.antall_ganger_utleid == flest_antall %}table-warning{% else %}table-light{% endif %}">
+                <td>{{ utstyr.antall_ganger_utleid }}</td>
+                <td>{{ utstyr.utstyrs_merke}}</td>
+                <td>{{ utstyr.utstyrs_modell }}</td>
+                <td>{{ utstyr.utstyrs_type }}</td>
+                <td>{{ utstyr.utstyrs_kat }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
 {% endblock %}
 
 

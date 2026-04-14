@@ -117,15 +117,15 @@ class FilterUtstyrForm(FlaskForm):
     filter = SubmitField('Filter')
 
 class AddUtleieForm(FlaskForm):
-    kunde_nr = SelectField('KundeNr:', choices=[], coerce=str)
-    avail_utstyr = SelectField('Tilgjengelig Utstyr:', choices=[], coerce=str)
-    betalings_måte = SelectField('Betalingsmåte:', choices=[], coerce=str )
-    leveres_kunde = SelectField('Leveres kunde?:', choices=[], coerce=str )
-    start_dato = DateField('Start Dato:', format='%Y-%m-%d')
+    kunde_nr = SelectField('KundeNr', choices=[], coerce=str)
+    avail_utstyr = SelectField('Tilgjengelig Utstyr', choices=[], coerce=str)
+    betalings_måte = SelectField('Betalingsmåte', choices=[], coerce=str )
+    leveres_kunde = SelectField('Leveres til kunde?', choices=[], coerce=str )
+    start_dato = DateField('Start Dato', format='%Y-%m-%d')
     submit = SubmitField('Legg til Utleie')
 
 class UpdateUtleieForm(FlaskForm):
-    slutt_dato = DateField('Slutt Dato:', format='%Y-%m-%d')
+    slutt_dato = DateField('Slutt Dato', format='%Y-%m-%d')
     submit = SubmitField('Oppdater')
 
 #visninger:
@@ -148,3 +148,11 @@ class Utstyr_Inntekt():
         self.UtstyrsMerke = UtstyrsMerke
         self.UtstyrsModell = UtstyrsModell
         self.UtstyrsType = UtstyrsType
+#E
+class Utstyr_Antall_Utleid():
+    def __init__(self, antall_ganger_utleid, utstyrs_merke, utstyrs_modell, utstyrs_type, utstyrs_kat):
+        self.antall_ganger_utleid = antall_ganger_utleid
+        self.utstyrs_merke = utstyrs_merke
+        self.utstyrs_modell = utstyrs_modell
+        self.utstyrs_type = utstyrs_type
+        self.utstyrs_kat = utstyrs_kat

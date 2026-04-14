@@ -13,7 +13,7 @@ def load_user(user_id):
     with Database() as db:
         user = db.load_user(user_id)
         if user:
-            return User(user[0], user[1], user[2], user[3], user[6])
+            return User(user[0], user[1], user[2], user[3], user[5])
         return None
 
 @users_bp.route('/register', methods=['GET', 'POST'])
@@ -44,7 +44,7 @@ def login():
             user = db.load_user_by_email(email)
 
             if user and check_password_hash(user[4], password):
-                login_user(User(user[0], user[1], user[2], user[3], user[6]))
+                login_user(User(user[0], user[1], user[2], user[3], user[5]))
                 return redirect( url_for('home'))
             
         return render_template('users/login.html', error = "Invalid credentials")
