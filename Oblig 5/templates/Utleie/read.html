@@ -2,8 +2,9 @@
 {% block content %}
 
 <div class="container mt-4">
-    <h2 class="text-center">Utleie</h2>
+    <h2 class="text-center">Utleie</h2>  
     <a href="{{ url_for('utleie.add_utleie') }}" class="btn btn-success mb-3">Oppret Ny Utleie</a> 
+    {% if error %}<div class="alert alert-danger">{{ error }}</div>{% endif %}
     <table class="table table-bordered">
         <thead class="table-dark">
             <tr>

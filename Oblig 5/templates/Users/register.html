@@ -1,11 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div>
+<div class="container">
     <h2>Registrer</h2>
+    
     {% if error %}
         <div class="alert alert-danger">{{ error }}</div>
     {% endif %}
+
     <form action="{{ url_for('users.register') }}" method="POST">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <div class="form-group">
@@ -32,10 +34,9 @@
             <label for="confirm_password">Bekrefter passord:</label>
             <input type="password" name="confirm_password" id="confirm_password" class="form-control" required>
         </div>
-        <button type="submit" name="register" value="Register" class="btn btn-primary">Registrer</button>
-
-        <p>Har du allerede en konto? <a href="{{ url_for('users.login') }}">Logg inn</a> </p>
+        <div class="text-center my-3"><button type="submit" name="register" value="Register" class="btn btn-primary">Registrer</button></div>
     </form>
+    <p>Har du allerede en konto? <a href="{{ url_for('users.login') }}">Logg inn</a></p>
 </div>
 
 {% endblock %}

@@ -31,7 +31,7 @@ def register():
             else:
                 db.create_user(kundeb_id, fornavn, etternavn, email, password)
                 db.create_kundebehandler(kundeb_id,fornavn, etternavn)
-            return redirect( url_for('users.login') )
+            return redirect( url_for('users.login'), error="Ny konto registrert" )
     return render_template("users/register.html")
 
 @users_bp.route('/login', methods=['GET', 'POST'])
@@ -47,7 +47,7 @@ def login():
                 login_user(User(user[0], user[1], user[2], user[3], user[5]))
                 return redirect( url_for('home'))
             
-        return render_template('users/login.html', error = "Invalid credentials")
+        return render_template('users/login.html', error = "Feil e-post eller passord")
     return render_template("users/login.html")
 
 @users_bp.route('/logout')

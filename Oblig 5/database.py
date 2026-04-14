@@ -116,9 +116,9 @@ class Database():
         return self.cursor.fetchall()
     
     #create utleie
-    def add_utleie(self, kundebehandler_id, kunde_nr, utstyr_id, instans_id, leveres_kunde, betalingsmåte_id, start_dato): # not working yet
-        self.cursor.execute("INSERT INTO utleie (KundebehandlerId, KundeNr, UtstyrId, InstansId, LeveresKunde, BetalingsmåteId, UtleidDato) VALUES (%s, %s, %s,%s,%s,%s,%s)", 
-                            (kundebehandler_id, kunde_nr, utstyr_id, instans_id, leveres_kunde, betalingsmåte_id, start_dato))
+    def add_utleie(self, kundebehandler_id, kunde_nr, utstyr_id, instans_id, leveres_kunde, betalingsmåte_id, start_dato, leveringskostnad): # not working yet
+        self.cursor.execute("INSERT INTO utleie (KundebehandlerId, KundeNr, UtstyrId, InstansId, LeveresKunde, BetalingsmåteId, UtleidDato, LeveringsKostnad) VALUES (%s, %s, %s,%s,%s,%s,%s,%s)", 
+                            (kundebehandler_id, kunde_nr, utstyr_id, instans_id, leveres_kunde, betalingsmåte_id, start_dato, leveringskostnad))
 
     def get_kunde_nr(self):
         self.cursor.execute("SELECT KundeNr FROM kunde")
@@ -142,8 +142,16 @@ class Database():
     #edit utleie
     def edit_innlevert_utleie(self, slutt_dato, utleie_id): # not working yet
         self.cursor.execute("UPDATE utleie SET InnlevertDato=%s WHERE UtleieId=%s ", (slutt_dato, utleie_id))
+
+    def calculate_totalpris(self, utleie_id):
+        self.cursor.execute("""SELECT SUM(ut.LeiePrisDøgn*DATEDIFF(utl.InnlevertDato, utl.UtleidDato) + utl.LeveringsKostnad) 
+                                FROM utstyr as ut, utleie as utl 
+                                WHERE ut.UtstyrId=utl.UtstyrId AND utl.UtleieId = %s""", (utleie_id,))
+        return self.cursor.fetchone()
         
-    
+    def edit_totalpris_utleie(self,totalpris ,utleie_id):
+        self.cursor.execute("UPDATE utleie SET TotalPris=%s WHERE UtleieId=%s ", (totalpris, utleie_id))
+
     #Registrere utleie
         #Velg kunde
         #Velg Utstyr(kun tilgjengelig)

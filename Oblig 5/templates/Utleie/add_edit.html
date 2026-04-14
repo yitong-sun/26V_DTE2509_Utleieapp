@@ -3,8 +3,8 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="contianer mt-4">
-    <h2>Oppdater Utleie</h2>
+<div class="contianer m-4">
+    <h2 class="text-center">Oppdater Utleie</h2>
     
     {% if error %}
     <div class="alert alert-danger">
@@ -14,12 +14,12 @@
     
     <form method="POST">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-        <div class="mb-3">
+        <div class="my-3 mx-5">
             {{ form.slutt_dato.label }}
             {{ form.slutt_dato(class="form-control") }}
         </div>
-
-        <button type="submit"   class="btn btn-primary">Oppdater Utleie</button>
+        <div class="text-center my-3"><button type="submit"   class="btn btn-primary">Oppdater Utleie</button></div>
+        
     </form>
 </div>
 

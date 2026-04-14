@@ -1,7 +1,8 @@
 from flask_login import UserMixin
 from flask_wtf import FlaskForm
 from wtforms import SelectField, SubmitField, DateField
-from wtforms.validators import DataRequired 
+from wtforms.validators import DataRequired
+
 
 # Tabeller i databasen:
 
@@ -43,7 +44,7 @@ class Utleie():
         self.kundebehandler = kundebehandler
         self.leveres_kunde = leveres_kunde
         self.betalingsmåte = betalingsmåte
-        self.leverings_kostnad = leverings_kostnad if leverings_kostnad else "0.00"
+        self.leverings_kostnad = leverings_kostnad 
         self.total_pris = total_pris if total_pris else "Uberegnet"
 
 class Adresse():
@@ -120,12 +121,12 @@ class AddUtleieForm(FlaskForm):
     kunde_nr = SelectField('KundeNr', choices=[], coerce=str)
     avail_utstyr = SelectField('Tilgjengelig Utstyr', choices=[], coerce=str)
     betalings_måte = SelectField('Betalingsmåte', choices=[], coerce=str )
-    leveres_kunde = SelectField('Leveres til kunde?', choices=[], coerce=str )
-    start_dato = DateField('Start Dato', format='%Y-%m-%d')
+    #leveres_kunde = SelectField('Leveres til kunde?', choices=[], coerce=str )
+    start_dato = DateField('Start Dato', format='%Y-%m-%d', validators=[DataRequired("Vennligst velg en dato")])
     submit = SubmitField('Legg til Utleie')
 
 class UpdateUtleieForm(FlaskForm):
-    slutt_dato = DateField('Slutt Dato', format='%Y-%m-%d')
+    slutt_dato = DateField('Slutt Dato', format='%Y-%m-%d', validators=[DataRequired("Vennligst velg en dato")])
     submit = SubmitField('Oppdater')
 
 #visninger:

@@ -26,8 +26,15 @@
             {{ form.start_dato(class="form-control") }}
         </div>
         <div class="my-3 mx-5">
-            {{ form.leveres_kunde.label }}
-            {{ form.leveres_kunde(class="form-select") }}
+            <label for="leveres_kunde" class="form-label">Leveres til kunde?</label>
+                <select class="form-control" id="leveres_kunde" name="leveres_kunde">
+                    <option value="Ja" >Ja</option>
+                    <option value="Nei" >Nei</option>
+                </select>
+        </div>       
+        <div class="my-3 mx-5">
+            <input type="number" placeholder="Leveringskostnad" 
+            name="leveringskostnad" id="leveringskostnad" class="form-control">
         </div>
         <div class="my-3 mx-5">
             {{ form.betalings_måte.label }}
@@ -37,5 +44,35 @@
             <button type="submit"   class="btn btn-primary">Legge til</button>
         </div>
     </form>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const leveres_kunde = document.getElementById("leveres_kunde");
+        const leveringskostnad = document.getElementById("leveringskostnad");
+
+
+        function update_leveringskostnad_state() {
+            if (leveres_kunde.value === "Nei") {
+                // Nei → lock leveringskostnad
+                leveringskostnad.disabled = true;
+
+            }
+            else {
+              // Ja → unlock leveringskostnad
+                leveringskostnad.disabled = false;
+            }
+        }
+
+        // intially set the state of kundenavn based on the current kundetype value
+        update_leveringskostnad_state();
+
+        // add event listener to update the state of kundenavn when kundetype changes
+        leveres_kunde.addEventListener("change", update_leveringskostnad_state);
+    });
+    </script>
 </div>
-{% endblock %}
+
+
+
+
+    {% endblock %}
