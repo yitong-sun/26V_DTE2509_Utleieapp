@@ -36,7 +36,19 @@ def add_utleie():
 
                 db.add_utleie(current_user.id, form.kunde_nr.data, utstyr_id, instans_id, form.leveres_kunde.data, betalingsmåte_id, form.start_dato.data)
                 return redirect(url_for('utleie.all'))
-    return render_template('utleie/add_edit.html', form=form, utleie=None)
+    return render_template('utleie/create.html', form=form, utleie=None)
+
+@utleie_bp.route('/utleie/edit/<int:utleie_id>', methods=['GET', 'POST'])
+@login_required
+def edit_innlevert_utleie(utleie_id):
+    form = UpdateUtleieForm()
+    if form.validate_on_submit():
+         slutt_dato = form.slutt_dato.data
+         with Database() as db:
+              db.edit_innlevert_utleie(slutt_dato,utleie_id)
+              return redirect(url_for('utleie.all'))
+    return render_template('utleie/add_edit.html', form=form)
+
 
 """ Registrere utleie
         *Velg kunde

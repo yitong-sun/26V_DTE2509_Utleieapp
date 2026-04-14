@@ -134,9 +134,9 @@ class Database():
         return self.cursor.fetchone()
     
     #edit utleie
-    def update_utleie(self): # not working yet
-        self.cursor.execute("")
-        pass
+    def edit_innlevert_utleie(self, slutt_dato, utleie_id): # not working yet
+        self.cursor.execute("UPDATE utleie SET InnlevertDato=%s WHERE UtleieId=%s ", (slutt_dato, utleie_id))
+        
     
     #Registrere utleie
         #Velg kunde

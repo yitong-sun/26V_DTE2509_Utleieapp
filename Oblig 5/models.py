@@ -1,6 +1,7 @@
 from flask_login import UserMixin
 from flask_wtf import FlaskForm
 from wtforms import SelectField, SubmitField, DateField
+from wtforms.validators import DataRequired 
 
 # Tabeller i databasen:
 
@@ -123,8 +124,8 @@ class AddUtleieForm(FlaskForm):
     submit = SubmitField('Legg til Utleie')
 
 class UpdateUtleieForm(FlaskForm):
-    pass
-
+    slutt_dato = DateField('Slutt Dato:', format='%Y-%m-%d')
+    submit = SubmitField('Oppdater')
 
 #visninger:
 

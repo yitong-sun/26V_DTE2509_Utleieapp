@@ -1,8 +1,10 @@
+
+
 {% extends "base.html" %}
 {% block content %}
 
-<div class="conatianer mt-4">
-    <h2>{{ 'Oppdatere' if utleie else 'Legge til'}} utleie</h2>
+<div class="contianer mt-4">
+    <h2>Legge til utleie</h2>
     
     {% if error %}
     <div class="alert alert-danger">
@@ -13,28 +15,12 @@
     <form method="POST">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <div class="mb-3">
-            {{ form.avail_utstyr.label }}
-            {{ form.avail_utstyr(class="form-select") }}
-        </div>
-        <div class="mb-3">
-            {{ form.kunde_nr.label }}
-            {{ form.kunde_nr(class="form-select") }}
-        </div>
-        <div class="mb-3">
-            {{ form.start_dato.label }}
-            {{ form.start_dato(class="form-control") }}
-        </div>
-        <div class="mb-3">
-            {{ form.leveres_kunde.label }}
-            {{ form.leveres_kunde(class="form-select") }}
-        </div>
-        <div class="mb-3">
-            {{ form.betalings_måte.label }}
-            {{ form.betalings_måte(class="form-select") }}
+            {{ form.slutt_dato.label }}
+            {{ form.slutt_dato(class="form-control") }}
         </div>
 
-        <button type="submit"   class="btn btn-primary">{{'Oppdatere' if utleie else 'Legge til'}} Utleie</button>
+        <button type="submit"   class="btn btn-primary">Oppdater Utleie</button>
     </form>
 </div>
-<!--utleie_id (generate self), utstyrs_id, instans_id (generate self avail), kunde_nr, utleid_dato, innlevert_dato(not when add, only update), kundebehandler(current user), leveres_kunde, betalingsmåte-->
+
 {% endblock %}
