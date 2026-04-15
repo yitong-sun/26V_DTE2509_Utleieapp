@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, request, Blueprint
 from flask_login import login_required, current_user
 from database import Database
-from models import Utstyr_Inntekt, Utleie_Aktiv, Utstyr_Antall_Utleid
+from models import Utstyr_Inntekt, Utleie_Aktiv, Utstyr_Antall_Utleid, Kunde
 
 statistikk_bp = Blueprint('statistikk',__name__, url_prefix='/statistikk')
 
