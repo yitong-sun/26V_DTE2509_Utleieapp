@@ -34,7 +34,7 @@
         </div>       
         <div class="my-3 mx-5">
             <input type="number" placeholder="Leveringskostnad" 
-            name="leveringskostnad" id="leveringskostnad" class="form-control">
+            name="leveringskostnad" id="leveringskostnad" class="form-control" min="0">
         </div>
         <div class="my-3 mx-5">
             {{ form.betalings_måte.label }}
@@ -55,6 +55,7 @@
             if (leveres_kunde.value === "Nei") {
                 // Nei → lock leveringskostnad
                 leveringskostnad.disabled = true;
+                leveringskostnad.value = 0
 
             }
             else {

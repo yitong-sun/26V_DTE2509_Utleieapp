@@ -1,19 +1,2 @@
 
-oversikt style size
-
-copy spacing from kunde ny til utleie ny
-
-order on statistikk flest utleid
-
-id in register not able to go negative
-
-script id not working jsonify
-
-leveringskoste not negative 
-
-value nei should show blank
-
-update requirements.txt
-
 update Utstyrutleie_webbapp.sql to base database from oblig3
-

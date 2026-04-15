@@ -64,8 +64,10 @@ class Database():
         return self.cursor.fetchone()
     
     def get_fem_siste_utleier(self):
-        self.cursor.execute("""SELECT *
-                                FROM utleie
+        self.cursor.execute("""SELECT utl.UtleieId, utl.UtstyrId, utl.InstansId, utl.KundeNr, utl.UtleidDato, utl.InnlevertDato, 
+                                concat(kb.Fornavn,' ', kb.Etternavn), utl.LeveresKunde, bm.Beskrivelse, utl.LeveringsKostnad, utl.TotalPris 
+                                FROM utleie AS utl, kundebehandler AS kb, betalingsmåte AS bm 
+                                WHERE utl.KundebehandlerId = kb.KundebehandlerId AND utl.BetalingsmåteId = bm.BetalingsmåteId
                                 ORDER BY UtleidDato DESC LIMIT 5
                                 """)
         return self.cursor.fetchall()
@@ -386,11 +388,16 @@ class Database():
     #E Mest utleid utstyr: (Highlight topresultatet)Vis det utstyret som er leid ut flest ganger, dvs. uavhengig av instansId.
     def flest_utleid_utstyr(self):
         self.cursor.execute("""SELECT AU.AntUtleid, Ut.UtstyrsMerke, Ut.UtstyrsModell, Ut.UtstyrsType, utkat.Beskrivelse AS Kategori
-                                FROM utstyr AS Ut, (SELECT COUNT(*) AS AntUtleid, Utstyrid FROM Utleie GROUP BY utstyrid ORDER BY Antutleid DESC) as AU, utstyrskategori AS utkat
-                                WHERE Ut.utstyrid = AU.UtstyrId AND Ut.UtstyrsKatId = utkat.UtstyrsKatId;""")
+                                FROM utstyr AS Ut, 
+                                (SELECT COUNT(*) AS AntUtleid, Utstyrid FROM Utleie GROUP BY utstyrid ORDER BY Antutleid DESC) as AU, utstyrskategori AS utkat
+                                WHERE Ut.utstyrid = AU.UtstyrId AND Ut.UtstyrsKatId = utkat.UtstyrsKatId
+                                ORDER BY AU.AntUtleid DESC;""")
         return self.cursor.fetchall()
     
     def get_top_flest_utleid_utstyr_antall(self):        
-        self.cursor.execute("""SELECT COUNT(*) AS AntUtleid FROM Utleie GROUP BY utstyrid ORDER BY Antutleid DESC LIMIT 1""")
+        self.cursor.execute("""SELECT COUNT(*) AS AntUtleid 
+                            FROM Utleie 
+                            GROUP BY utstyrid 
+                            ORDER BY Antutleid DESC LIMIT 1""")
         return self.cursor.fetchone()
 

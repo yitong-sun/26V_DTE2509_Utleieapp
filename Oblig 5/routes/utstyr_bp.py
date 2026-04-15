@@ -5,7 +5,7 @@ from models import Utstyr, FilterUtstyrForm
 
 utstyr_bp = Blueprint('utstyr',__name__)
 
-@utstyr_bp.route('/utstyr', methods=['GET', 'POST'])
+@utstyr_bp.route('/', methods=['GET', 'POST'])
 @login_required
 def all():
     

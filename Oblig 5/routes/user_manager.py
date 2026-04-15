@@ -62,12 +62,11 @@ def profile():
     return render_template("users/profile.html", user = current_user)
 
 @users_bp.route('/check_id')
-@login_required
 def check_id():
     user_id = request.args.get('user_id')
 
     with Database() as db:
         user = db.check_id_in_use(user_id)[0]
 
-    return jsonify({'exists': user is not False})
+    return jsonify({'exists': bool(user)})
      

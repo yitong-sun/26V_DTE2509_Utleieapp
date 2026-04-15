@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, request, Blueprint, flash
+from flask import render_template, redirect, url_for, request, Blueprint
 from flask_login import login_required, current_user
 from database import Database
 from models import Utleie, AddUtleieForm, UpdateUtleieForm
@@ -6,7 +6,7 @@ from models import Utleie, AddUtleieForm, UpdateUtleieForm
 
 utleie_bp = Blueprint('utleie',__name__)
 
-@utleie_bp.route('/utleie', methods=['GET', 'POST'])
+@utleie_bp.route('/', methods=['GET', 'POST'])
 @login_required
 def all():
     with Database() as db:
@@ -14,7 +14,7 @@ def all():
 
     return render_template('utleie/read.html', utleier=utleier)
 
-@utleie_bp.route('/utleie/add', methods=['GET', 'POST'])
+@utleie_bp.route('/add', methods=['GET', 'POST'])
 @login_required
 def add_utleie():
     with Database() as db:
@@ -48,7 +48,7 @@ def add_utleie():
                 return redirect(url_for('utleie.all'))
     return render_template('utleie/create.html', form=form, utleie=None)
 
-@utleie_bp.route('/utleie/edit/<int:utleie_id>', methods=['GET', 'POST'])
+@utleie_bp.route('/edit/<int:utleie_id>', methods=['GET', 'POST'])
 @login_required
 def edit_innlevert_utleie(utleie_id):
     form = UpdateUtleieForm()

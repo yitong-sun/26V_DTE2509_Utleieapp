@@ -24,7 +24,7 @@ login_manager.init_app(app)
 # remove hash when implemented
 app.register_blueprint(users_bp, url_prefix = '/users')
 app.register_blueprint(utstyr_bp, url_prefix = '/utstyr')
-app.register_blueprint(utleie_bp, url_prefix = '/utstyr')
+app.register_blueprint(utleie_bp, url_prefix = '/utleie')
 app.register_blueprint(kunder_bp, url_prefix = '/kunder')
 app.register_blueprint(statistikk_bp, url_prefix = '/statistikk')
 

@@ -12,7 +12,7 @@
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <div class="form-group my-3 mx-5">
             <label for="id">Id:</label>
-            <input type="number" name="id" id="id" class="form-control" required>
+            <input type="number" name="id" id="id" class="form-control" min="0" required>
             <div id="user-id-feedback" class="form-text"></div>
         </div>
         <div class="form-group my-3 mx-5">
@@ -58,7 +58,7 @@
                 return;
             }
 
-            fetch(`/register/check_id?user_id=${encodeURIComponent(value)}`)
+            fetch(`check_id?user_id=${encodeURIComponent(value)}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.exists) {
