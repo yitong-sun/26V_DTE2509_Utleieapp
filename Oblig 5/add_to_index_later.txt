@@ -1,2 +1,0 @@
-
-update Utstyrutleie_webbapp.sql to base database from oblig3
