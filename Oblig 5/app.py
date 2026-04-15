@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template
 from flask_login import login_required
 from flask_wtf import CSRFProtect
 import secrets
@@ -7,7 +7,6 @@ from models import Utleie
 
 from routes.user_manager import users_bp, login_manager
 from routes.utstyr_bp import utstyr_bp
-#remove hash when implemented
 from routes.utleie_bp import utleie_bp
 from routes.kunder_bp import kunder_bp
 from routes.statistikk_bp import statistikk_bp

@@ -58,7 +58,7 @@
                 return;
             }
 
-            fetch(`/register/check_id_in_use?user_id=${encodeURIComponent(value)}`)
+            fetch(`/register/check_id?user_id=${encodeURIComponent(value)}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.exists) {
@@ -72,7 +72,7 @@
         }
 
         // add event listener to update the state of kundenavn when kundetype changes
-        kundenr.addEventListener("blur", check_id);
+        user_id.addEventListener("blur", check_id);
     });
     </script>
 

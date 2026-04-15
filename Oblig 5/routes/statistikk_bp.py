@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, request, Blueprint
+from flask import render_template, Blueprint
 from flask_login import login_required, current_user
 from database import Database
 from models import Utstyr_Inntekt, Utleie_Aktiv, Utstyr_Antall_Utleid, Kunde

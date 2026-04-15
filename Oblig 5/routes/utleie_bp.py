@@ -2,7 +2,7 @@ from flask import render_template, redirect, url_for, request, Blueprint, flash
 from flask_login import login_required, current_user
 from database import Database
 from models import Utleie, AddUtleieForm, UpdateUtleieForm
-from datetime import datetime, date
+#from datetime import datetime, date
 
 utleie_bp = Blueprint('utleie',__name__)
 

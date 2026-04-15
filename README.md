@@ -142,7 +142,7 @@ Applikasjonen består av følgende hovedmoduler:
 ### Hjem-side (Dashboard)
 - Oversikt over aktive utleier (ikke innlevert)
 - Antall tilgjengelig utstyr
-- Siste 5 utleier, med det mest utleide utstyret markert
+- Siste 5 utleier
 
 ### Kunder
 - Vise kundeliste
@@ -151,17 +151,18 @@ Applikasjonen består av følgende hovedmoduler:
 ### Utstyr
 - Vise alt utstyr
 - Filtrere på type og kategori
-- Vise status (tilgjengelig / utleid)
+- Vise status basert på utleid d.v.s Tilgjengelig / Utleid
 
 ### Utleie
-- Registrere ny utleie (valg av kunde og tilgjengelig utstyr, dato og ansvarlig ansatt)
-- Registrere innlevering (dato og status)
+- Registrere ny utleie (valg av kunde, tilgjengelig utstyr, dato, om det skal leveres til kunde og leveringskostnad)
+- Pålogget ansatt automatisk valgt som kundebehandler
+- Registrere innlevering dato
 
 ### Statistikk
 Basert på tidligere SQL-spørringer:
 
 - Kundeliste
 - Aktive utleier (filtrert på innlogget ansatt)
-- Antall komplette utleier i periode
+- Antall komplette utleier i perioden 2019-01-01 til 2020-02-10
 - Inntekt per utstyr (sortert synkende)
 - Mest utleid utstyr (toppresultat markert)
