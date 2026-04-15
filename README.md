@@ -6,21 +6,27 @@ Webapplikasjon for håndtering av kunder, utstyr og utleie.
 
 Følgende må være installert:
 
-- Python 3.x (Mine is Python 3.13, what is yours????????????????)
+- Python 3.x
 - MySQL
 - pip
+- støtte for virtual environment (`venv`)
 
 ## Installering
 
 1. Klon eller last ned prosjektet.
 
-2. Opprett virtual environment:
+2. Gå inn i prosjektmappen "Oblig 5":
 
+```bash
+cd "Oblig 5"
+```
+
+3. Opprett virtual environment:
 ```bash
 python -m venv venv
 ```
 
-3. Aktiver miljøet:
+4. Aktiver miljøet (fra samme mappe):
 
 Windows:
 ```bash
@@ -32,29 +38,46 @@ Mac/Linux:
 source venv/bin/activate
 ```
 
-4. Installer nødvendige pakker:
+5. Installer nødvendige Python-pakker:
 
 ```bash
 pip install -r requirements.txt
 ```
 
+
 ## Database
+
+Applikasjonen bruker en lokal MySQL-database.
+
+### Oppsett
 
 1. Opprett en database i MySQL med navn:
 
 `utstyrsutleiedb`
 
-2. Importer SQL-scriptet som følger prosjektet. (how to describe this??????)
+2. Importer SQL-scriptet `Utstyrutleie_webbapp.sql` i databasen.
 
-3. Opprett en `.env` fil i prosjektmappen med:
+
+### Miljøvariabler
+
+Opprett en `.env` fil i prosjektmappen (`Oblig 5`) og sett ditt eget MySQL-passord:
 
 ```env
-DB_PASSWORD=din_mysql_passord , whose password is this???????????????
+DB_PASSWORD=din_egen_mysql_passord
 ```
+
+### Tilkobling
+
+Applikasjonen kobler til databasen med følgende innstillinger:
+
+- Host: `localhost`
+- Bruker: `root`
+- Database: `utstyrsutleiedb`
+- Passord: hentes fra `.env` (variabel: `DB_PASSWORD`)
 
 ## Kjør applikasjonen
 
-Start applikasjonen:
+Sørg for at du er i prosjektmappen (`Oblig 5`), og kjør:
 
 ```bash
 python app.py
@@ -63,6 +86,45 @@ python app.py
 Åpne i nettleser:
 
 `http://127.0.0.1:8000`
+
+
+
+## Prosjektstruktur
+
+```text
+.
+├── app.py
+├── database.py
+├── models.py
+├── requirements.txt
+├── .env (ikke inkludert i repository)
+├── Utstyrutleie_webbapp.sql
+├── routes
+│   ├── kunder_bp.py
+│   ├── statistikk_bp.py
+│   ├── utleie_bp.py
+│   ├── utstyr_bp.py
+│   └── user_manager.py
+└── templates
+    ├── base.html
+    ├── index.html
+    ├── Kunder
+    │   ├── read.html
+    │   ├── create.html
+    │   └── add_edit.html
+    ├── Statistikk
+    │   └── read.html
+    ├── Users
+    │   ├── login.html
+    │   ├── register.html
+    │   └── profile.html
+    ├── Utleie
+    │   ├── read.html
+    │   ├── create.html
+    │   └── add_edit.html
+    └── Utstyr
+        └── read.html
+```
 
 ## Innlogging
 
@@ -75,13 +137,31 @@ Innlogging skjer med e-post og passord.
 
 ## Funksjonalitet
 
-- Hjem-side som viser:
-Antall aktive utleier (ikke innlevert)
-Antall tilgjengelige utstyr
-Siste utleier (f.eks. siste 5)
+Applikasjonen består av følgende hovedmoduler:
 
-- Logge inn og ut, samt beskyttede sider
-- Opprette ny og redigere kunder
-- Registrere og vise utstyr
-- Administrere utleie
-- Se statistikk
+### Hjem-side (Dashboard)
+- Oversikt over aktive utleier (ikke innlevert)
+- Antall tilgjengelig utstyr
+- Siste 5 utleier, med det mest utleide utstyret markert
+
+### Kunder
+- Vise kundeliste
+- Legge til og redigere kunder
+
+### Utstyr
+- Vise alt utstyr
+- Filtrere på type og kategori
+- Vise status (tilgjengelig / utleid)
+
+### Utleie
+- Registrere ny utleie (valg av kunde og tilgjengelig utstyr, dato og ansvarlig ansatt)
+- Registrere innlevering (dato og status)
+
+### Statistikk
+Basert på tidligere SQL-spørringer:
+
+- Kundeliste
+- Aktive utleier (filtrert på innlogget ansatt)
+- Antall komplette utleier i periode
+- Inntekt per utstyr (sortert synkende)
+- Mest utleid utstyr (toppresultat markert)
