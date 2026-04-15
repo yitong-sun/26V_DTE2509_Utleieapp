@@ -27,6 +27,12 @@ c39c862c-31a1-11f1-9800-9082c340a2b7:1-47,
 cd8c833a-f055-11f0-bc3c-ad3c23fe8fd3:1-1379';
 
 --
+-- Create database with correct name
+--
+
+CREATE DATABASE utstyrsutleiedb;
+
+--
 -- Table structure for table `adresse`
 --
 

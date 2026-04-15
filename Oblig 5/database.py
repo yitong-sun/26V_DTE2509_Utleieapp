@@ -46,6 +46,23 @@ class Database():
     def check_id_in_use(self, id):
         self.cursor.execute("SELECT EXISTS(SELECT id FROM user WHERE id = %s)", (id,))
         return self.cursor.fetchone()
+    
+    
+    #Dashboard
+    def get_total_antall_aktiv_utleie(self):
+        self.cursor.execute(""" SELECT COUNT(*)
+                                FROM utleie 
+                                WHERE Innlevertdato is null
+                                GROUP BY InnlevertDato; """)
+        return self.cursor.fetchone()
+    
+    def get_antall_tilgjengelinge_utstyr(self):
+        self.cursor.execute(""" SELECT COUNT(*)
+                                FROM instans 
+                                WHERE concat(Utstyrid,'.',InstansId) 
+                                NOT IN (SELECT concat(UtstyrId,'.',InstansId) FROM utleie WHERE InnlevertDato IS Null)""")
+        return self.cursor.fetchone()
+    
 
     #utstyr
     def get_all_utstyr(self):
@@ -161,6 +178,7 @@ class Database():
     #Registrer innlevering
         #Marker utleie som levert
         #Sett innleveringsdato  
+
 
     
     #Visninger

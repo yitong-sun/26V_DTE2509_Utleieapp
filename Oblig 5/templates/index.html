@@ -1,12 +1,44 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="container text-center mt-5">
+<div class="container text-center table-responsive mt-5">
     <h1 class="mb-4">Velkommen til utstyrutleie</h1>
     <p class="lead">Oversikt</p>
 
     <!--Oversikt over antall aktive utleier(ikke innlevert)-->
+<div class=" mt-4 table-responsive container col-3">
+    <h2 class="text-center my-3">Aktive utleier</h2>
+    <table class="table table-bordered" >
+        <thead class="table-dark">
+            <tr> 
+                <th>Antall</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ antall_aktive_utleie }}</td>
+
+            </tr>
+        </tbody>
+    </table>
+</div>   
     <!--Oversikt over antall tilgjengelige utstyr-->
+<div class=" mt-4 table-responsive container col-3">
+    <h2 class="text-center my-3">Tilgjengelige utsyr</h2>
+    <table class="table table-bordered" >
+        <thead class="table-dark">
+            <tr> 
+                <th>Antall</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ antall_tilgjengelige_utstyr  }}</td>
+
+            </tr>
+        </tbody>
+    </table>
+</div>  
     <!--Oversikt over siste 5 utleier-->
 
 </div>

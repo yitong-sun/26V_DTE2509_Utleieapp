@@ -3,4 +3,3 @@
 oversikt
 
 
-create database sql that creates schema with correct database name

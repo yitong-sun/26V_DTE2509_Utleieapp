@@ -2,6 +2,7 @@ from flask import Flask, render_template, redirect, url_for, request
 from flask_login import login_required
 from flask_wtf import CSRFProtect
 import secrets
+from database import Database
 
 from routes.user_manager import users_bp, login_manager
 from routes.utstyr_bp import utstyr_bp
@@ -31,7 +32,24 @@ app.register_blueprint(statistikk_bp, url_prefix = '/statistikk')
 @app.route("/")
 @login_required
 def home():
-    return render_template("index.html")
+    with Database() as db:
+
+        if db.get_total_antall_aktiv_utleie() != None:
+            antall_aktive_utleie = db.get_total_antall_aktiv_utleie()[0]
+        else:
+            antall_aktive_utleie = 0
+
+        
+        if db.get_antall_tilgjengelinge_utstyr() != None:
+            antall_tilgjengelige_utstyr = db.get_antall_tilgjengelinge_utstyr()[0]
+        else:
+            antall_tilgjengelige_utstyr = 0
+
+    return render_template("index.html",
+                           #variabler: 
+                            antall_aktive_utleie=antall_aktive_utleie,
+                            antall_tilgjengelige_utstyr=antall_tilgjengelige_utstyr                               
+                            )
 
 
 if __name__ == "__main__":

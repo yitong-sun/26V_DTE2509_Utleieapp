@@ -129,6 +129,9 @@ class UpdateUtleieForm(FlaskForm):
     slutt_dato = DateField('Slutt Dato', format='%Y-%m-%d', validators=[DataRequired("Vennligst velg en dato")])
     submit = SubmitField('Oppdater')
 
+#Dashboard
+
+
 #visninger:
 
 #B
