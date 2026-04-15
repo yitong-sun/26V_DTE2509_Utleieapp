@@ -14,12 +14,28 @@ class User(UserMixin):
         self.email = email
         self.role = role
 
-class Kunde(): 
-    def __init__(self, kundenr, epost, mobil, fakt_adresse_id ,levering_adresse_id):
+class Kunde():
+    def __init__(
+        self,
+        kundenr,
+        epost,
+        fakt_adresse_id,
+        levering_adresse_id,
+        telefoner=None,
+        navn="",
+        fakt_adresse="",
+        levering_adresse=""
+    ):
         self.kundenr = kundenr
         self.epost = epost
-        self.fakt_adresse_id = fakt_adresse_id 
-        self.levering_Adresse_id  = levering_adresse_id
+        self.fakt_adresse_id = fakt_adresse_id
+        self.levering_adresse_id = levering_adresse_id
+        self.telefoner = telefoner if telefoner is not None else []
+
+        self.navn = navn
+        self.mobil = ", ".join(self.telefoner) if self.telefoner else ""
+        self.fakt_adresse = fakt_adresse
+        self.levering_adresse = levering_adresse
 
 class Utstyr():
     def __init__(self, utstyr_id, utstyrs_type, utstyrs_merke, utstyrs_modell, beskrivelse, utstyrs_kategori, leie_pris_døgn, antall_utstyr, antall_på_lager):
@@ -133,6 +149,9 @@ class UpdateUtleieForm(FlaskForm):
 
 
 #visninger:
+
+#A，see class Kunde():
+
 
 #B
 class Utleie_Aktiv(): 

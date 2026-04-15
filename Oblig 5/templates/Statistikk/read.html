@@ -4,6 +4,34 @@
 
 <!--A: Kundeliste -->
 
+<div class="container mt-4 table-responsive">
+    <h2 class="text-center my-3">Kundeliste</h2>
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>KundeNr</th>
+                <th>Navn</th>
+                <th>E-post</th>
+                <th>Mobil</th>
+                <th>Faktura Adresse</th>
+                <th>Leverings Adresse</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for kunde in kunder %}
+            <tr>
+                <td>{{ kunde.kundenr }}</td>
+                <td>{{ kunde.navn }}</td>
+                <td>{{ kunde.epost }}</td>
+                <td>{{ kunde.mobil }}</td>
+                <td>{{ kunde.fakt_adresse }}</td>
+                <td>{{ kunde.levering_adresse }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
 <!--B: Aktive utleier -->
 
 <div class="container mt-4 table-responsive">
@@ -39,7 +67,7 @@
     <h2 class="text-center my-3">Komplette utleier i perioden 2019-01-01 til 2020-02-10</h2>
     <table class="table table-bordered">
         <thead class="table-dark">
-            <tr> 
+            <tr>
                 <th>Antall komplette Utleier</th>
             </tr>
         </thead>
@@ -124,11 +152,11 @@
     *Antall komplette utleier i valgt periode
     (kan være hardkodet periode)-->
 
-    
+
 <!--Implemented: D: Inntekt per utstyr
     *Vis som liste/tabell
     *sorter synkende -->
-    
+
 
 <!--E: Mest utleid utstyr
     *Highlight toppresultatet-->

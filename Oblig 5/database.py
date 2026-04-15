@@ -123,21 +123,157 @@ class Database():
 
     
     #kunder
-    def get_all_kunder(self): # not working yet
-        self.cursor.execute("")
+    def get_all_kunder(self):
+        self.cursor.execute("""
+                            SELECT KundeNr, KundeEpost, Fakt_AdresseId, Levering_AdresseId
+                            FROM kunde
+                            """)
         return self.cursor.fetchall()
-    #edit kunde
-    def update_kunde(self): # not working yet
-        self.cursor.execute("")
+
+    def get_kunde_by_kundenr(self, kundenr):
+        self.cursor.execute("""
+                            SELECT KundeNr, KundeEpost, Fakt_AdresseId, Levering_AdresseId
+                            FROM kunde
+                            WHERE KundeNr = %s
+                            """, (kundenr,))
+        return self.cursor.fetchone()
+
+
+    #kundetelefon
+    def get_telefoner_for_kunde(self, kundenr):
+        self.cursor.execute("""
+                            SELECT TelefonNr
+                            FROM kundetelefon
+                            WHERE KundeNr = %s
+                            """, (kundenr,))
+        return self.cursor.fetchall()
+
+    #privatkunde
+    def get_privatkunde_navn(self, kundenr):
+        self.cursor.execute("""
+                            SELECT Fornavn, Etternavn
+                            FROM privatkunde
+                            WHERE KundeNr = %s
+                            """, (kundenr,))
+        return self.cursor.fetchone()
+
+    #bedriftkunde
+    def get_bedriftkunde_navn(self, kundenr):
+        self.cursor.execute("""
+                            SELECT Kundenavn
+                            FROM bedriftkunde
+                            WHERE KundeNr = %s
+                            """, (kundenr,))
+        return self.cursor.fetchone()
+
+    #adresse
+    def get_adresse_by_id(self, adresse_id):
+        self.cursor.execute("""
+                            SELECT a.AdrGate, a.AdrGateNr, a.PostNr, p.PostSted
+                            FROM adresse AS a,
+                                 poststed AS p
+                            WHERE a.PostNr = p.PostNr
+                              AND a.AdresseId = %s
+                            """, (adresse_id,))
+        return self.cursor.fetchone()
+
+
+
+
 
     #create kunde
-    def add_kunde(self): # not working yet
-        self.cursor.execute("")
+    def add_kunde(self, kundenr, epost, fakt_adresse_id, levering_adresse_id):
+        self.cursor.execute("""
+                            INSERT INTO kunde (KundeNr, KundeEpost, Fakt_AdresseId, Levering_AdresseId)
+                            VALUES (%s, %s, %s, %s)
+                            """, (kundenr, epost, fakt_adresse_id, levering_adresse_id))
 
-    #delete kunde
-    def delete_kunde(self, kundenr): # not working yet
-        self.cursor.execute("DELETE FROM Kunde WHERE KundeNr = %s", (kundenr))
-    
+
+    def add_kundetelefon(self, kundenr, telefonnr):
+        self.cursor.execute("""
+                            INSERT INTO kundetelefon (KundeNr, TelefonNr)
+                            VALUES (%s, %s)
+                            """, (kundenr, telefonnr))
+
+    def add_privatkunde(self, kundenr, fornavn, etternavn):
+        self.cursor.execute("""
+                            INSERT INTO privatkunde (KundeNr, Fornavn, Etternavn)
+                            VALUES (%s, %s, %s)
+                            """, (kundenr, fornavn, etternavn))
+
+    def add_bedriftkunde(self, kundenr, kundenavn):
+        self.cursor.execute("""
+                            INSERT INTO bedriftkunde (KundeNr, Kundenavn)
+                            VALUES (%s, %s)
+                            """, (kundenr, kundenavn))
+
+
+    #add adresse
+    def get_max_adresse_id(self):
+        self.cursor.execute("SELECT MAX(AdresseId) FROM adresse")
+        return self.cursor.fetchone()
+
+    def add_adresse(self, adresse_id, adresse_type_id, postnr, adrgate, adrgatenr):
+        self.cursor.execute("""
+                            INSERT INTO adresse (AdresseId, AdresseTypeID, PostNr, AdrGate, AdrGateNr)
+                            VALUES (%s, %s, %s, %s, %s)
+                            """, (adresse_id, adresse_type_id, postnr, adrgate, adrgatenr))
+
+
+
+
+
+
+
+    #edit kunde
+    def update_kunde(self, kundenr, epost, fakt_adresse_id, levering_adresse_id):
+        self.cursor.execute("""
+                            UPDATE kunde
+                            SET KundeEpost         = %s,
+                                Fakt_AdresseId     = %s,
+                                Levering_AdresseId = %s
+                            WHERE KundeNr = %s
+                            """, (epost, fakt_adresse_id, levering_adresse_id, kundenr))
+
+    def update_kundetelefon(self, kundenr, telefonnr):
+        self.cursor.execute("""
+                            UPDATE kundetelefon
+                            SET TelefonNr = %s
+                            WHERE KundeNr = %s
+                            """, (telefonnr, kundenr))
+
+    def update_privatkunde(self, kundenr, fornavn, etternavn):
+        self.cursor.execute("""
+                            UPDATE privatkunde
+                            SET Fornavn   = %s,
+                                Etternavn = %s
+                            WHERE KundeNr = %s
+                            """, (fornavn, etternavn, kundenr))
+
+    def update_bedriftkunde(self, kundenr, kundenavn):
+        self.cursor.execute("""
+                            UPDATE bedriftkunde
+                            SET Kundenavn = %s
+                            WHERE KundeNr = %s
+                            """, (kundenavn, kundenr))
+
+    def update_adresse(self, adresse_id, postnr, adrgate, adrgatenr):
+        self.cursor.execute("""
+                            UPDATE adresse
+                            SET PostNr    = %s,
+                                AdrGate   = %s,
+                                AdrGateNr = %s
+                            WHERE AdresseId = %s
+                            """, (postnr, adrgate, adrgatenr, adresse_id))
+
+
+
+    # #delete kunde
+    # def delete_kunde(self, kundenr): # not working yet
+    #     self.cursor.execute("DELETE FROM kunde WHERE KundeNr = %s", (kundenr,))
+
+
+
 
 
 
