@@ -10,7 +10,8 @@ class Database():
         host="localhost",
         user="root",
         password=os.getenv("DB_PASSWORD"),
-        database= "utstyrsutleiedb")
+        database= "utstyrsutleiedb",
+        buffered=True)
 
     def __enter__(self):
         try:
