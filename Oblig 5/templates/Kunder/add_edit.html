@@ -3,7 +3,7 @@
 
 <!-- Everthing here should technically work but needs the database fuctions to be done-->
 <div class="container mt-4">
-    <h2>{{ 'Oppdatere' if kunde else 'Legge til' }} Kunde</h2>
+    <h2 class="text-center">{{ 'Oppdatere' if kunde else 'Legge til' }} Kunde</h2>
 
     {% if error %}
     <div class="alert alert-danger">
@@ -74,7 +74,11 @@
        title="Format: Gate, Nummer, PostNr. For eksempel: Veien, 4, 8000">
         </div>
 
-        <button type="submit"   class="btn btn-primary">{{'Oppdatere' if kunde else 'Legge til'}} Kunde</button>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">
+                {{ 'Oppdatere' if kunde else 'Legge til' }} Kunde
+            </button>
+        </div>
     </form>
     <script>
     document.addEventListener("DOMContentLoaded", function () {
