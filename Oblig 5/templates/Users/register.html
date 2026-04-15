@@ -2,7 +2,7 @@
 {% block content %}
 
 <div class="container">
-    <h2>Registrer</h2>
+    <h2 class="text-center my-3">Registrer</h2>
     
     {% if error %}
         <div class="alert alert-danger">{{ error }}</div>
@@ -10,27 +10,28 @@
 
     <form action="{{ url_for('users.register') }}" method="POST">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-        <div class="form-group">
+        <div class="form-group my-3 mx-5">
             <label for="id">Id:</label>
             <input type="number" name="id" id="id" class="form-control" required>
+            <div id="user-id-feedback" class="form-text"></div>
         </div>
-        <div class="form-group">
+        <div class="form-group my-3 mx-5">
             <label for="fornavn">Fornavn:</label>
             <input type="text" name="fornavn" id="fornavn" class="form-control" required>
         </div>
-        <div class="form-group">
+        <div class="form-group my-3 mx-5">
             <label for="etternavn">Etternavn:</label>
             <input type="text" name="etternavn" id="etternavn" class="form-control" required>
         </div>
-        <div class="form-group">
+        <div class="form-group my-3 mx-5">
             <label for="email">Epost:</label>
             <input type="email" name="email" id="email" class="form-control" required>
         </div>
-        <div class="form-group">
+        <div class="form-group my-3 mx-5">
             <label for="password">Passord:</label>
             <input type="password" name="password" id="password" class="form-control" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Passordet må inneholde minst en stor bokstav, en liten bokstav og et syfer, og minst 8 eller mer karakterer" required>
         </div>
-        <div class="form-group">
+        <div class="form-group my-3 mx-5">
             <label for="confirm_password">Bekrefter passord:</label>
             <input type="password" name="confirm_password" id="confirm_password" class="form-control" required>
         </div>
@@ -38,5 +39,41 @@
     </form>
     <p>Har du allerede en konto? <a href="{{ url_for('users.login') }}">Logg inn</a></p>
 </div>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const user_id = document.getElementById("id");
+        const user_id_feedback = document.getElementById("user-id-feedback");
+
+
+        function check_id() {
+            if (!user_id) {
+                return;
+            }
+
+            const value = user_id.value.trim();
+
+            if (value === "") {
+                user_id_feedback.textContent = "";
+                return;
+            }
+
+            fetch(`/register/check_id_in_use?user_id=${encodeURIComponent(value)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.exists) {
+                        user_id_feedback.textContent = "Id finnes allerede.";
+                        user_id_feedback.className = "text-danger";
+                    } else {
+                        user_id_feedback.textContent = "Id er tilgjengelig.";
+                        user_id_feedback.className = "text-success";
+                    }
+                });
+        }
+
+        // add event listener to update the state of kundenavn when kundetype changes
+        kundenr.addEventListener("blur", check_id);
+    });
+    </script>
 
 {% endblock %}

@@ -2,6 +2,7 @@ from flask import render_template, redirect, url_for, request, Blueprint, flash
 from flask_login import login_required, current_user
 from database import Database
 from models import Utleie, AddUtleieForm, UpdateUtleieForm
+from datetime import datetime, date
 
 utleie_bp = Blueprint('utleie',__name__)
 
@@ -33,8 +34,10 @@ def add_utleie():
 
     if request.method == "POST":
         leveres_kunde = request.form['leveres_kunde']
-        leveringskostnad = request.form.get('leveringskostnad', 0.00)
+        leveringskostnad = request.form.get('leveringskostnad', 0)
         lev_kost = leveringskostnad if leveringskostnad != '' else 0
+        if int(lev_kost)<0:
+            return render_template('utleie/create.html', form=form, utleie=None, error="Leveringskostnad kan ikke være negativ")
 
     if form.validate_on_submit():
         with Database() as db:
@@ -52,10 +55,16 @@ def edit_innlevert_utleie(utleie_id):
     if form.validate_on_submit():
          slutt_dato = form.slutt_dato.data
          with Database() as db:
-              db.edit_innlevert_utleie(slutt_dato,utleie_id)
-              totalpris= db.calculate_totalpris(utleie_id)[0]
-              db.edit_totalpris_utleie(totalpris, utleie_id)
-              return redirect(url_for('utleie.all'))
+                utleid_dato = db.get_utleid_dato(utleie_id)[0]
+                duration = slutt_dato - utleid_dato
+                if duration.days < 0:
+                     return render_template('utleie/add_edit.html', form=form, 
+                                            error="Kan ikke velge innleveringsdato som er tidligere en utleiddato")
+                else:
+                    db.edit_innlevert_utleie(slutt_dato,utleie_id)
+                    totalpris= db.calculate_totalpris(utleie_id)[0]
+                    db.edit_totalpris_utleie(totalpris, utleie_id)
+                    return redirect(url_for('utleie.all'))
     return render_template('utleie/add_edit.html', form=form)
 
 

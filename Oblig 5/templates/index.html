@@ -5,42 +5,82 @@
     <h1 class="mb-4">Velkommen til utstyrutleie</h1>
     <p class="lead">Oversikt</p>
 
-    <!--Oversikt over antall aktive utleier(ikke innlevert)-->
-<div class=" mt-4 table-responsive container col-3">
-    <h2 class="text-center my-3">Aktive utleier</h2>
-    <table class="table table-bordered" >
-        <thead class="table-dark">
-            <tr> 
-                <th>Antall</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>{{ antall_aktive_utleie }}</td>
+<div class="row">
+        <!--Oversikt over antall aktive utleier(ikke innlevert)-->
+    <div class=" mt-4 table-responsive container col">
+        <h2 class="text-center my-3">Aktive utleier</h2>
+        <table class="table table-bordered" >
+            <thead class="table-dark">
+                <tr> 
+                    <th>Antall</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ antall_aktive_utleie }}</td>
 
-            </tr>
-        </tbody>
-    </table>
-</div>   
-    <!--Oversikt over antall tilgjengelige utstyr-->
-<div class=" mt-4 table-responsive container col-3">
-    <h2 class="text-center my-3">Tilgjengelige utsyr</h2>
-    <table class="table table-bordered" >
-        <thead class="table-dark">
-            <tr> 
-                <th>Antall</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>{{ antall_tilgjengelige_utstyr  }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>   
 
-            </tr>
-        </tbody>
-    </table>
-</div>  
+        <!--Oversikt over antall tilgjengelige utstyr-->
+    <div class=" mt-4 table-responsive container col">
+        <h2 class="text-center my-3">Tilgjengelige utsyr</h2>
+        <table class="table table-bordered" >
+            <thead class="table-dark">
+                <tr> 
+                    <th>Antall</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ antall_tilgjengelige_utstyr  }}</td>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>  
+</div>
     <!--Oversikt over siste 5 utleier-->
+<div class=" mt-4 table-responsive container">
+    <h2 class="text-center my-3">Fem siste utleier</h2>
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Utleie Id</th>
+                <th>Utstyrs Id</th>
+                <th>Instans Id</th>
+                <th>KundeNr</th>
+                <th>Utleid Dato</th>
+                <th>Innlevert Dato</th>
+                <th>Kundebehandler</th>
+                <th>Leveres Kunde</th>
+                <th>Betalingsmåte</th>
+                <th>Leveringskostnad</th>
+                <th>Total pris</th>                
 
+            </tr>
+        </thead>
+        <tbody>
+            {% for utleie in utleier %}
+            <tr>
+                <td>{{ utleie.utleie_id }}</td>
+                <td>{{ utleie.utstyrs_id }}</td>
+                <td>{{ utleie.instans_id }}</td>
+                <td>{{ utleie.kunde_nr }}</td>
+                <td>{{ utleie.utleid_dato }}</td>
+                <td>{{ utleie.innlevert_dato }}</td>
+                <td>{{ utleie.kundebehandler}}</td>
+                <td>{{ utleie.leveres_kunde }}</td>
+                <td>{{ utleie.betalingsmåte}}</td>
+                <td>{{ utleie.leverings_kostnad }}</td>
+                <td>{{ utleie.total_pris}}</td>                
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 </div>
 
 {% endblock %}

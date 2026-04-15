@@ -63,8 +63,27 @@ class Database():
                                 NOT IN (SELECT concat(UtstyrId,'.',InstansId) FROM utleie WHERE InnlevertDato IS Null)""")
         return self.cursor.fetchone()
     
+    def get_fem_siste_utleier(self):
+        self.cursor.execute("""SELECT *
+                                FROM utleie
+                                ORDER BY UtleidDato DESC LIMIT 5
+                                """)
+        return self.cursor.fetchall()
 
     #utstyr
+    def check_status_utstyr_id(self, utstyr_id):
+        self.cursor.execute("""SELECT UtstyrId
+                                FROM instans 
+                                WHERE UtstyrId = %s AND
+                                concat(Utstyrid,'.',InstansId) 
+                                NOT IN (SELECT concat(UtstyrId,'.',InstansId) FROM utleie WHERE InnlevertDato IS Null)""",
+                                (utstyr_id))
+        return self.cursor.fetchone()
+    
+    def get_utstyr_id(self):
+        self.cursor.execute("SELECT UtstyrId FROM Utstyr")
+        return self.cursor.fetchall()
+
     def get_all_utstyr(self):
         self.cursor.execute("""SELECT ut.UtstyrId, ut.UtstyrsType, ut.UtstyrsMerke, ut.UtstyrsModell, ut.Beskrivelse, 
                             kat.Beskrivelse, ut.LeiePrisDøgn, ut.AntallUtstyr, ut.AntallPåLager 
@@ -161,13 +180,22 @@ class Database():
         self.cursor.execute("UPDATE utleie SET InnlevertDato=%s WHERE UtleieId=%s ", (slutt_dato, utleie_id))
 
     def calculate_totalpris(self, utleie_id):
-        self.cursor.execute("""SELECT SUM(ut.LeiePrisDøgn*DATEDIFF(utl.InnlevertDato, utl.UtleidDato) + utl.LeveringsKostnad) 
+        self.cursor.execute("""SELECT SUM(ut.LeiePrisDøgn*IF(DATEDIFF(utl.InnlevertDato, utl.UtleidDato)=0, 1, DATEDIFF(utl.InnlevertDato, utl.UtleidDato)) + utl.LeveringsKostnad) 
                                 FROM utstyr as ut, utleie as utl 
                                 WHERE ut.UtstyrId=utl.UtstyrId AND utl.UtleieId = %s""", (utleie_id,))
         return self.cursor.fetchone()
         
     def edit_totalpris_utleie(self,totalpris ,utleie_id):
         self.cursor.execute("UPDATE utleie SET TotalPris=%s WHERE UtleieId=%s ", (totalpris, utleie_id))
+
+    def get_utleid_dato(self, utleie_id):
+        self.cursor.execute(""" SELECT UtleidDato 
+                                FROM Utleie
+                                WHERE UtleieId = %s
+                                """, (utleie_id,))
+        return self.cursor.fetchone()
+    
+
 
     #Registrere utleie
         #Velg kunde

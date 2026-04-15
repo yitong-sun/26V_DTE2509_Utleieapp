@@ -12,7 +12,12 @@ def all():
     form = FilterUtstyrForm()
 
     with Database() as db:
-                
+
+        tilgjengelig =[]
+        for utstyr_id in db.get_utstyr_id():
+            if db.check_status_utstyr_id(utstyr_id):
+                tilgjengelig.append(utstyr_id[0])
+
         utstyr_typer = db.get_utstyr_typer()
         kategorier = db.get_utstyr_kategorier()
 
@@ -23,7 +28,14 @@ def all():
             utstyrer = [Utstyr(*utstyr) for utstyr in db.get_filtered_utstyr(
                         form.utstyr_type.data or None, 
                         form.kategori.data or None)]
+            
         else:
             utstyrer = [Utstyr(*utstyr) for utstyr in db.get_all_utstyr()]
 
-    return render_template('utstyr/read.html', form=form , utstyrer=utstyrer)
+
+
+    return render_template('utstyr/read.html', 
+                           form=form , 
+                           utstyrer=utstyrer, 
+                           tilgjengelig=tilgjengelig,
+                           )

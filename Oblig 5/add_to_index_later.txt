@@ -1,5 +1,4 @@
 
 
-oversikt
-
+copy spacing from kunde ny til utleie ny
 

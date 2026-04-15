@@ -49,7 +49,9 @@
                 <td>{{ utstyr.leie_pris_døgn}}</td>
                 <td>{{ utstyr.antall_utstyr}}</td>
                 <td>{{ utstyr.antall_på_lager}}</td>
-                <td>{% if utstyr.antall_på_lager == 0 %} Utleid {% else %} Tilgjengelig {% endif %}</td>
+                <td>{% if utstyr.utstyr_id in tilgjengelig %} 
+                    Tilgjengelig 
+                    {% else %} Utleid {% endif %}</td>
                 {% endfor %}
             </tr>
             

@@ -3,6 +3,7 @@ from flask_login import login_required
 from flask_wtf import CSRFProtect
 import secrets
 from database import Database
+from models import Utleie
 
 from routes.user_manager import users_bp, login_manager
 from routes.utstyr_bp import utstyr_bp
@@ -45,10 +46,13 @@ def home():
         else:
             antall_tilgjengelige_utstyr = 0
 
+        utleier = [Utleie(*utleie) for utleie in db.get_fem_siste_utleier()]
+
     return render_template("index.html",
                            #variabler: 
                             antall_aktive_utleie=antall_aktive_utleie,
-                            antall_tilgjengelige_utstyr=antall_tilgjengelige_utstyr                               
+                            antall_tilgjengelige_utstyr=antall_tilgjengelige_utstyr,
+                            utleier = utleier                               
                             )
 
 
