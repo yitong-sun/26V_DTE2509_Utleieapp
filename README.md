@@ -154,9 +154,9 @@ Applikasjonen består av følgende hovedmoduler:
 - Legge til og redigere kunder
 
 ### Utstyr
-- Vise alt utstyr
-- Filtrere på type og kategori
-- Vise status basert på utleid d.v.s Tilgjengelig / Utleid
+- Vise alt utstyr og instanser
+- Filtrere på type og kategori av utstyr
+- Vise status basert på instanser som er utleid d.v.s Tilgjengelig / Utleid
 
 ### Utleie
 - Registrere ny utleie (valg av kunde, tilgjengelig utstyr, dato, om det skal leveres til kunde og leveringskostnad)
