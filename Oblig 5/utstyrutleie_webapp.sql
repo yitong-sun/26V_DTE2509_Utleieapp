@@ -198,7 +198,7 @@ CREATE TABLE IF NOT EXISTS `utstyrsutleiedb`.`Betalingsmåte` (
   PRIMARY KEY (`BetalingsmåteId`))
 ENGINE = InnoDB;
 
-INSERT INTO `betalingsmåte` VALUES (1,'Kontant'),(2,'Kort'),(3,'Vips');
+INSERT INTO `betalingsmåte` VALUES (1,'Kontant'),(2,'Kort'),(3,'Vipps');
 
 -- -----------------------------------------------------
 -- Table `utstyrsutleiedb`.`Utleie`
