@@ -79,6 +79,12 @@ Applikasjonen kobler til databasen med følgende innstillinger:
 
 Sørg for at du er i prosjektmappen (`Oblig 5`), og kjør:
 
+### Windows
+```bash
+py app.py
+```
+
+### Mac / Linux
 ```bash
 python app.py
 ```
@@ -110,7 +116,6 @@ python app.py
     ├── index.html
     ├── Kunder
     │   ├── read.html
-    │   ├── create.html
     │   └── add_edit.html
     ├── Statistikk
     │   └── read.html
