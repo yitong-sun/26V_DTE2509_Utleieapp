@@ -34,7 +34,6 @@
                 <th>Leie pris per døgn</th>
                 <th>Antall utstyr</th>
                 <th>Antall på lager</th>
-                <th>Status</th>
             </tr>
         </thead>
         <tbody>
@@ -49,14 +48,39 @@
                 <td>{{ utstyr.leie_pris_døgn}}</td>
                 <td>{{ utstyr.antall_utstyr}}</td>
                 <td>{{ utstyr.antall_på_lager}}</td>
-                <td>{% if utstyr.utstyr_id in tilgjengelig %} 
-                    Tilgjengelig 
-                    {% else %} Utleid {% endif %}</td>
-                {% endfor %}
+                    {% endfor %}
             </tr>
             
         </tbody>
     </table>
+
+    <table class="table table-bordered">
+    <thead class="table-dark">
+        <tr>
+            <th>Utstyr Id</th>
+            <th>Instans Id</th>
+            <th>Siste vedlikehold</th>
+            <th>Neste vedlikehold</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for instans in instanser %}
+        {% if instans.utstyr_id in utstyrer | map(attribute='utstyr_id') | list  %}
+        <tr>
+            <td>{{ instans.utstyr_id }}</td>
+            <td>{{ instans.instans_id }}</td>
+            <td>{{ instans.siste_vedlikehold }}</td>
+            <td>{{ instans.neste_vedlikehold }}</td>
+            <td>{% if instans.utstyr_instans_id in tilgjengelig %} 
+                Tilgjengelig 
+                {% else %} Utleid {% endif %}</td>
+        {% endif %}
+        {% endfor %}
+        </tr>
+        
+    </tbody>
+</table>
 </div>
 
 <!--Implemented: liste over alt utstyr-->

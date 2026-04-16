@@ -1,7 +1,7 @@
 from flask import render_template, Blueprint
 from flask_login import login_required
 from database import Database
-from models import Utstyr, FilterUtstyrForm
+from models import Utstyr, FilterUtstyrForm, Instans
 
 utstyr_bp = Blueprint('utstyr',__name__)
 
@@ -14,9 +14,12 @@ def all():
     with Database() as db:
 
         tilgjengelig =[]
-        for utstyr_id in db.get_utstyr_id():
-            if db.check_status_utstyr_id(utstyr_id):
-                tilgjengelig.append(utstyr_id[0])
+        for utstyr_instans_id in db.get_utstyr_instans_id():
+                if db.check_status_utstyr_instans_id(utstyr_instans_id[0]):
+                    print(utstyr_instans_id[0], "Yes")
+                    tilgjengelig.append(utstyr_instans_id[0])
+                else:
+                     print(utstyr_instans_id[0], "No")
 
         utstyr_typer = db.get_utstyr_typer()
         kategorier = db.get_utstyr_kategorier()
@@ -32,10 +35,13 @@ def all():
         else:
             utstyrer = [Utstyr(*utstyr) for utstyr in db.get_all_utstyr()]
 
+        instanser = [Instans(*instans) for instans in db.get_all_instans()]
+
 
 
     return render_template('utstyr/read.html', 
                            form=form , 
                            utstyrer=utstyrer, 
                            tilgjengelig=tilgjengelig,
+                           instanser=instanser
                            )

@@ -70,25 +70,35 @@ class Database():
         return self.cursor.fetchall()
 
     #utstyr
-    def check_status_utstyr_id(self, utstyr_id):
-        self.cursor.execute("""SELECT UtstyrId
+    def check_status_utstyr_instans_id(self,utstyr_instans_id):
+        self.cursor.execute("""SELECT concat(Utstyrid,'.',InstansId) 
                                 FROM instans 
-                                WHERE UtstyrId = %s AND
+                                WHERE concat(Utstyrid,'.',InstansId) = %s AND
                                 concat(Utstyrid,'.',InstansId) 
                                 NOT IN (SELECT concat(UtstyrId,'.',InstansId) FROM utleie WHERE InnlevertDato IS Null)""",
-                                (utstyr_id))
+                                (utstyr_instans_id,))
         return self.cursor.fetchone()
     
     def get_utstyr_id(self):
         self.cursor.execute("SELECT UtstyrId FROM Utstyr")
         return self.cursor.fetchall()
+    
+    def get_utstyr_instans_id(self):
+        self.cursor.execute("SELECT concat(Utstyrid,'.',InstansId) FROM instans", )
+        return self.cursor.fetchall()
+    
 
     def get_all_utstyr(self):
         self.cursor.execute("""SELECT ut.UtstyrId, ut.UtstyrsType, ut.UtstyrsMerke, ut.UtstyrsModell, ut.Beskrivelse, 
                             kat.Beskrivelse, ut.LeiePrisDøgn, ut.AntallUtstyr, ut.AntallPåLager 
                             FROM utstyr as ut, utstyrskategori as kat 
-                            WHERE ut.UtstyrsKatId = kat.UtstyrsKatId """)
-        
+                            WHERE ut.UtstyrsKatId = kat.UtstyrsKatId """)     
+        return self.cursor.fetchall()
+    
+    def get_all_instans(self):
+        self.cursor.execute("""SELECT InstansId, UtstyrId, concat(UtstyrId,".", InstansId), SisteVedlikehold, NesteVedlikehold
+                            FROM instans
+                            ORDER BY UtstyrId """)     
         return self.cursor.fetchall()
     
     def get_filtered_utstyr(self, utstyr_type = None, kategori = None):

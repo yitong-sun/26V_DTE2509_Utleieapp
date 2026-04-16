@@ -89,11 +89,13 @@ class Betalingsmåte():
         self.beskrivelse = beskrivelse
 
 class Instans():
-    def __init__(self, instans_id, utstyr_id, siste_vedlikehold, neste_vedlikehold):
+    def __init__(self, instans_id, utstyr_id, utstyr_instans_id, siste_vedlikehold, neste_vedlikehold):
         self.instans_id = instans_id
         self.utstyr_id = utstyr_id
+        self.utstyr_instans_id = utstyr_instans_id
         self.siste_vedlikehold = siste_vedlikehold
         self.neste_vedlikehold = neste_vedlikehold
+
 
 class Kundebehandler():
     def __init__(self, kundebehandler_id, fornavn, etternavn, telefon_nr):
@@ -129,8 +131,8 @@ class UtstyrsKategori():
 #Forms
 
 class FilterUtstyrForm(FlaskForm):
-    utstyr_type = SelectField('Utstyr type:', choices=[], coerce=str)
-    kategori = SelectField('Utstyr kategori:', choices=[], coerce=str)
+    utstyr_type = SelectField('Utstyr type', choices=[], coerce=str)
+    kategori = SelectField('Utstyr kategori', choices=[], coerce=str)
     filter = SubmitField('Filter')
 
 class AddUtleieForm(FlaskForm):
