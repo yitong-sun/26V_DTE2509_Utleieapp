@@ -137,7 +137,6 @@ class AddUtleieForm(FlaskForm):
     kunde_nr = SelectField('KundeNr', choices=[], coerce=str)
     avail_utstyr = SelectField('Tilgjengelig Utstyr', choices=[], coerce=str)
     betalings_måte = SelectField('Betalingsmåte', choices=[], coerce=str )
-    #leveres_kunde = SelectField('Leveres til kunde?', choices=[], coerce=str )
     start_dato = DateField('Start Dato', format='%Y-%m-%d', validators=[DataRequired("Vennligst velg en dato")])
     submit = SubmitField('Legg til Utleie')
 

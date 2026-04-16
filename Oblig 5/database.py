@@ -25,9 +25,6 @@ class Database():
         self.cursor.close()
         self.mysqlConnection.close()
 
-
-
-
     #user
     def load_user(self, user_id):
         self.cursor.execute("SELECT * FROM user WHERE id = %s", (user_id,))
@@ -48,8 +45,7 @@ class Database():
         self.cursor.execute("SELECT EXISTS(SELECT id FROM user WHERE id = %s)", (id,))
         return self.cursor.fetchone()
     
-    
-    #Dashboard
+    #Dashboard/oversikt
     def get_total_antall_aktiv_utleie(self):
         self.cursor.execute(""" SELECT COUNT(*)
                                 FROM utleie 
@@ -270,16 +266,6 @@ class Database():
                             """, (postnr, adrgate, adrgatenr, adresse_id))
 
 
-
-    # #delete kunde
-    # def delete_kunde(self, kundenr): # not working yet
-    #     self.cursor.execute("DELETE FROM kunde WHERE KundeNr = %s", (kundenr,))
-
-
-
-
-
-
     #utleie
     #read utleie
     def get_all_utleie(self):
@@ -291,7 +277,7 @@ class Database():
         return self.cursor.fetchall()
     
     #create utleie
-    def add_utleie(self, kundebehandler_id, kunde_nr, utstyr_id, instans_id, leveres_kunde, betalingsmåte_id, start_dato, leveringskostnad): # not working yet
+    def add_utleie(self, kundebehandler_id, kunde_nr, utstyr_id, instans_id, leveres_kunde, betalingsmåte_id, start_dato, leveringskostnad): 
         self.cursor.execute("INSERT INTO utleie (KundebehandlerId, KundeNr, UtstyrId, InstansId, LeveresKunde, BetalingsmåteId, UtleidDato, LeveringsKostnad) VALUES (%s, %s, %s,%s,%s,%s,%s,%s)", 
                             (kundebehandler_id, kunde_nr, utstyr_id, instans_id, leveres_kunde, betalingsmåte_id, start_dato, leveringskostnad))
 
@@ -315,7 +301,7 @@ class Database():
         return self.cursor.fetchone()
     
     #edit utleie
-    def edit_innlevert_utleie(self, slutt_dato, utleie_id): # not working yet
+    def edit_innlevert_utleie(self, slutt_dato, utleie_id): 
         self.cursor.execute("UPDATE utleie SET InnlevertDato=%s WHERE UtleieId=%s ", (slutt_dato, utleie_id))
 
     def calculate_totalpris(self, utleie_id):

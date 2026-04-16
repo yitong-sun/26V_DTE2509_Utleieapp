@@ -10,7 +10,7 @@ utleie_bp = Blueprint('utleie',__name__)
 @login_required
 def all():
     with Database() as db:
-        utleier = [Utleie(*utleie) for utleie in db.get_all_utleie()] #not implemented in Database yet
+        utleier = [Utleie(*utleie) for utleie in db.get_all_utleie()] 
 
     return render_template('utleie/read.html', utleier=utleier)
 
