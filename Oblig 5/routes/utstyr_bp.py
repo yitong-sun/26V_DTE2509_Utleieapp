@@ -27,7 +27,7 @@ def all():
         form.utstyr_type.choices = [('', 'Alle')] +[(t[0], t[0]) for t in utstyr_typer]
         form.kategori.choices = [('', 'Alle')] +[(k[0], k[0]) for k in kategorier]
 
-        if form.validate_on_submit:
+        if form.validate_on_submit():
             utstyrer = [Utstyr(*utstyr) for utstyr in db.get_filtered_utstyr(
                         form.utstyr_type.data or None, 
                         form.kategori.data or None)]
